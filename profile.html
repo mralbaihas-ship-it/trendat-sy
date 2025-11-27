@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حسابي | تريندات</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="favicon.png" sizes="512x512" type="image/png">
+    <style>
+        :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light);color:var(--dark);padding-top:90px;min-height:100vh}
+
+        .topbar{background:var(--main);position:fixed;top:0;width:100%;z-index:1100;padding:15px 30px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(0,0,0,0.15);color:white}
+        .topbar .logo img{height:70px}
+        .user-info{display:flex;align-items:center;gap:15px;font-size:20px;font-weight:bold}
+        .logout-btn{background:rgba(255,255,255,0.25);padding:10px 20px;border-radius:50px;cursor:pointer;transition:0.3s}
+        .logout-btn:hover{background:white;color:var(--dark)}
+
+        .container{max-width:1100px;margin:40px auto;padding:20px}
+
+        .profile-card{background:white;border-radius:24px;box-shadow:0 15px 50px rgba(0,0,0,0.12);overflow:hidden}
+        .profile-header{background:linear-gradient(135deg,#2cbfb5,#063d28);color:white;padding:40px;text-align:center}
+        .profile-header img{width:120px;height:120px;border-radius:50%;border:6px solid white;box-shadow:0 10px 30px rgba(0,0,0,0.3);object-fit:cover}
+        .profile-header h1{font-size:32px;margin:15px 0}
+        .profile-header p{font-size:18px;opacity:0.9}
+
+        .profile-body{padding:40px}
+        .info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:25px;margin-bottom:40px}
+        .info-item{background:#f8fdfc;padding:20px;border-radius:16px;border-left:5px solid var(--main)}
+        .info-item h3{font-size:20px;margin-bottom:10px;color:var(--main)}
+        .info-item p{font-size:18px;color:#333}
+
+        .actions{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+        .action-btn{background:white;padding:25px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.1);text-align:center;cursor:pointer;transition:0.3s}
+        .action-btn:hover{transform:translateY(-8px);box-shadow:0 15px 35px rgba(44,191,181,0.2)}
+        .action-btn i{font-size:40px;color:var(--main);margin-bottom:15px}
+        .action-btn h3{font-size:20px;font-weight:600}
+
+        .edit-btn{background:var(--main);color:white;padding:15px 30px;border:none;border-radius:50px;font-size:18px;cursor:pointer;margin-top:20px}
+    </style>
+</head>
+<body>
+
+    <!-- تحقق من تسجيل الدخول -->
+    <script>
+        if(localStorage.getItem('trendatLoggedIn') !== 'true'){
+            alert('يرجى تسجيل الدخول أولاً');
+            location.href = 'login.html';
+        }
+    </script>
+
+    <div class="topbar">
+        <div class="logo"><img src="logo.png" alt="تريندات"></div>
+        <div class="user-info">
+            <span>مرحباً، <span id="userName">...</span></span>
+            <div class="logout-btn" onclick="logout()">تسجيل الخروج</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <img src="user-avatar.jpg" alt="صورة المستخدم" id="userAvatar">
+                <h1 id="userName2">...</h1>
+                <p>عضو في تريندات منذ 2025</p>
+            </div>
+
+            <div class="profile-body">
+                <h2 style="margin-bottom:25px;text-align:center;color:var(--main)">معلوماتي الشخصية</h2>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <h3><i class="fas fa-user"></i> الاسم الكامل</h3>
+                        <p id="fullName">محمد أحمد</p>
+                    </div>
+                    <div class="info-item">
+                        <h3><i class="fas fa-envelope"></i> البريد الإلكتروني</h3>
+                        <p id="userEmail">mohammed@example.com</p>
+                    </div>
+                    <div class="info-item">
+                        <h3><i class="fas fa-phone"></i> رقم الجوال</h3>
+                        <p id="userPhone">0944 123 456</p>
+                    </div>
+                    <div class="info-item">
+                        <h3><i class="fas fa-map-marker-alt"></i> عنوان التوصيل</h3>
+                        <p id="userAddress">دمشق - المزة - شارع الثورة - بجانب صيدلية الشام</p>
+                    </div>
+                </div>
+
+                <center>
+                    <button class="edit-btn" onclick="alert('سيتم إضافة صفحة تعديل البيانات قريباً')">
+                        <i class="fas fa-edit"></i> تعديل بياناتي
+                    </button>
+                </center>
+
+                <h2 style="margin:40px 0 25px;text-align:center;color:var(--main)">إدارة حسابي</h2>
+                
+                <div class="actions">
+                    <div class="action-btn" onclick="location.href='cart.html'">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>سلة التسوق</h3>
+                    </div>
+                    <div class="action-btn" onclick="alert('قائمة الطلبات قيد التطوير')">
+                        <i class="fas fa-box"></i>
+                        <h3>طلباتي</h3>
+                    </div>
+                    <div class="action-btn" onclick="alert('المفضلة قيد التطوير')">
+                        <i class="fas fa-heart"></i>
+                        <h3>المفضلة</h3>
+                    </div>
+                    <div class="action-btn" onclick="alert('العناوين المحفوظة قيد التطوير')">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <h3>عناويني</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // جلب بيانات المستخدم
+        const name = localStorage.getItem('trendatUserName') || 'مستخدم تريندات';
+        document.getElementById('userName').textContent = name;
+        document.getElementById('userName2').textContent = name;
+        document.getElementById('fullName').textContent = localStorage.getItem('trendatFullName') || 'غير محدد';
+        document.getElementById('userEmail').textContent = localStorage.getItem('trendatEmail') || 'غير محدد';
+        document.getElementById('userPhone').textContent = localStorage.getItem('trendatPhone') || 'غير محدد';
+        document.getElementById('userAddress').textContent = localStorage.getItem('trendatAddress') || 'لم يتم إضافة عنوان بعد';
+
+        function logout(){
+            if(confirm('هل تريد تسجيل الخروج؟')){
+                localStorage.removeItem('trendatLoggedIn');
+                localStorage.removeItem('trendatUserName');
+                alert('تم تسجيل الخروج بنجاح');
+                location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>

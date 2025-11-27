@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تريندات - التسوق الأول في سوريا 2025</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="favicon.png" sizes="512x512" type="image/png">
+    <script type="module" src="firebase.js"></script>
+    <style>
+        :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light);color:var(--dark);overflow-x:hidden}
+
+        /* الهيدر والنافبار */
+        .topbar{background:var(--main);position:fixed;top:0;width:100%;z-index:1100;box-shadow:0 4px 20px rgba(6,61,40,0.3);display:flex;align-items:center;justify-content:space-between;padding:10px 30px;height:78px;}
+        .logo img{height:70px;transition:0.3s;cursor:pointer}
+        .logo img:hover{transform:scale(1.08)}
+        .search-box{position:relative;width:100%;max-width:500px}
+        .search-box input{width:100%;padding:14px 55px 14px 20px;border:none;border-radius:50px;font-size:17px;box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+        .search-box i{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--main);font-size:22px}
+        .top-right{display:flex;gap:18px;align-items:center;color:white;font-weight:600;}
+        .top-right a{color:white;text-decoration:none;padding:10px 18px;border-radius:50px;transition:0.3s;cursor:pointer}
+        .top-right a:hover{background:rgba(255,255,255,0.25)}
+        .seller-btn{background:rgba(255,255,255,0.25)!important;border:2px solid rgba(255,255,255,0.4);font-weight:bold;padding:12px 20px!important}
+        .seller-btn:hover{background:white!important;color:#063d28!important;transform:translateY(-3px)}
+        .cart{position:relative;cursor:pointer}
+        .cart span{position:absolute;top:-8px;left:-8px;background:red;color:white;border-radius:50%;width:22px;height:22px;font-size:12px;display:flex;align-items:center;justify-content:center;}
+        .user-profile{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.2);padding:8px 16px;border-radius:50px;transition:0.3s}
+
+        .navbar{background:white;position:fixed;top:78px;width:100%;z-index:1099;box-shadow:0 4px 15px rgba(0,0,0,0.08);padding:14px 30px;display:flex;gap:40px;justify-content:center;font-weight:600;}
+        .dropdown{position:relative;display:inline-block}
+        .dropdown-content{display:none;position:absolute;top:100%;right:0;background:white;min-width:220px;box-shadow:0 10px 30px rgba(0,0,0,0.15);border-radius:12px;padding:15px 0;z-index:1000;}
+        .dropdown-content a{display:block;padding:12px 20px;color:var(--dark);text-decoration:none;transition:0.3s;}
+        .dropdown-content a:hover{background:#f0fdfc}
+        .dropdown:hover .dropdown-content{display:block}
+
+        /* السلايدر */
+        .slider-wrapper{position:relative;margin-top:120px;height:80vh;overflow:hidden}
+        .slide{position:absolute;top:0;left:0;width:100%;height:100%;background-size:cover;background-position:center;opacity:0;transition:opacity 1.8s ease-in-out}
+        .slide.active{opacity:1}
+        .fade-bottom{position:absolute;bottom:0;left:0;width:100%;height:400px;background:linear-gradient(to top,var(--light) 0%,rgb(255, 255, 255) 40%,rgb(176, 247, 248) 70%,transparent 100%);z-index:5}
+
+        /* الصف الأول فوق السلايدر */
+        .first-row-categories{position:absolute;bottom:60px;left:50%;transform:translateX(-50%);width:90%;max-width:1450px;display:grid;grid-template-columns:repeat(5,1fr);gap:28px;z-index:10;pointer-events:none;}
+        .first-row-categories .cat-new{pointer-events:auto;}
+
+        /* باقي الأقسام مرفوعة للأعلى */
+        .rest-categories-section{margin-top:-125px;padding-top:100px;background:var(--light);position:relative;z-index:8;}
+        .categories-grid{max-width:1450px;margin:auto;display:grid;grid-template-columns:repeat(5,1fr);gap:28px;padding:0 20px;}
+
+        .cat-new{background:white;border-radius:24px;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,0.14);text-align:center;cursor:pointer;transition:all 0.4s ease;height:290px;}
+        .cat-new:hover{transform:translateY(-16px);box-shadow:0 32px 65px rgba(44,191,181,0.45);}
+        .cat-new img{width:100%;height:195px;object-fit:cover;border-bottom:6px solid var(--main);}
+        .cat-new span{display:flex;align-items:center;justify-content:center;height:89px;padding:10px;font-size:19px;font-weight:800;color:var(--dark);}
+
+        .exclusive-stories{background:white;padding:40px 0;margin:50px auto;max-width:1450px;border-radius:20px;box-shadow:0 8px 30px rgba(0,0,0,0.09);overflow:hidden;}
+        .stories-container{display:flex;gap:22px;padding:35px 10px;overflow-x:auto;scrollbar-width:none;}
+        .stories-container::-webkit-scrollbar{display:none}
+        .story{position:relative;text-align:center;cursor:pointer;min-width:88px;transition:0.3s;}
+        .story:hover{transform:scale(1.08)}
+        .story img{width:76px;height:76px;border-radius:50%;object-fit:cover;border:4px solid white;position:absolute;z-index:2;box-shadow:0 4px 15px rgba(0,0,0,0.2);top:50%;left:50%;transform:translate(-50%,-50%);}
+        .story::before{content:'';position:absolute;top:50%;left:50%;width:84px;height:84px;border-radius:50%;transform:translate(-50%,-50%);z-index:1;background:linear-gradient(45deg,#2cbfb5,#1a9d92,#117a70,#0a5c52,#063d28);animation:pulse 2.5s infinite;}
+        .story span{display:block;margin-top:12px;font-size:13.5px;font-weight:600;color:#333;}
+        @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(44,191,181,0.8);}70%{box-shadow:0 0 0 14px rgba(44,191,181,0);}100%{box-shadow:0 0 0 0 0 rgba(44,191,181,0);}}
+
+        .section-title{font-size:38px;text-align:center;margin:70px 0 50px;color:var(--dark);font-weight:900;position:relative}
+        .section-title::after{content:'';position:absolute;bottom:-15px;left:50%;transform:translateX(-50%);width:120px;height:6px;background:var(--main);border-radius:3px;}
+
+        .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:32px;max-width:1450px;margin:auto;padding:0 20px;}
+        .product{background:white;border-radius:24px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.1);transition:0.4s;cursor:pointer}
+        .product:hover{transform:translateY(-15px);box-shadow:0 28px 55px rgba(44,191,181,0.35)}
+        .product img{width:100%;height:250px;object-fit:cover}
+        .info{padding:20px;text-align:center}
+        .brand{color:var(--main);font-weight:bold}
+        .name{font-size:19px;margin:10px 0}
+        .price{color:var(--main);font-size:24px;font-weight:bold}
+        .add{background:var(--main);color:white;border:none;padding:16px;width:100%;font-size:18px;cursor:pointer;border-radius:0 0 24px 24px;transition:0.3s}
+        .add:hover{background:#1a9d92}
+
+        /* شريط الماركات - النسخة الفخمة الجديدة 2025 */
+        .brands-stories{
+            background:white;
+            padding:80px 20px;
+            margin:80px 0;
+            border-radius:28px;
+            box-shadow:0 15px 45px rgba(0,0,0,0.12);
+            overflow:hidden;
+        }
+        .brands-container{
+            display:flex;
+            gap:45px;
+            padding:25px 10px;
+            overflow-x:auto;
+            scrollbar-width:none;
+            scroll-behavior:smooth;
+            align-items:center;
+        }
+        .brands-container::-webkit-scrollbar{display:none}
+
+        .brand-item{
+            text-align:center;
+            min-width:140px;
+            transition:all 0.5s ease;
+            cursor:pointer;
+            flex-shrink:0;
+        }
+        .brand-item:hover{
+            transform:translateY(-15px) scale(1.12);
+        }
+        .brand-item img{
+            width:130px;
+            height:130px;
+            border-radius:50%;
+            object-fit:contain;
+            background:white;
+            border:7px solid var(--main);
+            box-shadow:0 12px 30px rgba(44,191,181,0.45);
+            padding:12px;
+            transition:0.4s;
+        }
+        .brand-item:hover img{
+            border-color:#1a9d92;
+            box-shadow:0 20px 40px rgba(44,191,181,0.6);
+        }
+        .brand-item p{
+            margin-top:16px;
+            font-size:17px;
+            font-weight:800;
+            color:var(--dark);
+        }
+
+        /* الأقسام النصية */
+        .info-section{padding:90px 20px;text-align:center;background:var(--light)}
+        .info-section:nth-child(even){background:#f0fdfc}
+        .info-section h2{font-size:36px;margin-bottom:30px;color:var(--dark);font-weight:900}
+        .info-section p{font-size:18px;line-height:2.1;color:#444;max-width:1000px;margin:0 auto 20px;}
+
+        footer{background:var(--dark);color:#ccc;padding:90px 40px 20px}
+        .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:40px;margin-bottom:60px;max-width:1450px;margin:auto}
+        .footer-col h3{font-size:20px;margin-bottom:25px;color:var(--main);font-weight:900}
+        .footer-col a{color:#ccc;text-decoration:none;display:block;margin:12px 0;transition:0.3s}
+        .footer-col a:hover{color:var(--main)}
+        .social-icons a{font-size:32px;margin:0 12px;color:#ccc;transition:0.3s}
+        .social-icons a:hover{color:var(--main)}
+        .copyright{background:#000;padding:25px;text-align:center;font-size:15px}
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر والنافبار + السلايدر + الأقسام (كلها زي ما هي) -->
+    <div class="topbar">
+        <div class="logo"><a href="/"><img src="logo.png" alt="تريندات"></a></div>
+        <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="ابحث عن أي شيء..."></div>
+        <div class="top-right">
+            <a href="login.html?seller=1" class="seller-btn">كن بائعًا</a>
+            <a href="login.html" id="loginLink">تسجيل الدخول</a>
+            <a href="cart.html" class="cart"><i class="fas fa-shopping-cart fa-lg"></i><span id="cartCount">0</span></a>
+        </div>
+    </div>
+
+   <div class="navbar">
+    <a href="index.html">الرئيسية</a>
+    <a href="gifts.html">الهدايا</a>
+    <a href="featured.html">منتجات مميزة</a>
+        <a href="offers.html">العروض</a>
+        <a href="bestsellers.html">الأكثر مبيعًا</a>
+        <a href="explore.html"> استكشاف </a>
+        <a href="support.html">خدمة العملاء</a>
+</div>
+
+    <div class="slider-wrapper">
+        <div class="slide active" style="background-image:url('banner1.jpg')"></div>
+        <div class="slide" style="background-image:url('banner2.jpg')"></div>
+        <div class="slide" style="background-image:url('banner3.jpg')"></div>
+        <div class="fade-bottom"></div>
+
+        <div class="first-row-categories">
+            <a href="gifts.html" class="cat-new">
+    <img src="gift.jpg" alt="هدايا">
+    <span>هدايا</span>
+</a>
+<a href="men.html" class="cat-new">
+    <img src="men.jpg" alt="رجالي">
+    <span>رجالي</span>
+</a>          
+
+<a href="women.html" class="cat-new">
+    <img src="women.jpg" alt="نسائي">
+    <span>نسائي</span>
+</a>
+<a href="electronics.html" class="cat-new">
+    <img src="electronics.jpg" alt="إلكترونيات">
+    <span>إلكترونيات</span>
+</a>         
+        <a href="home.html" class="cat-new">
+    <img src="home.jpg" alt="أدوات منزلية">
+    <span>أدوات منزلية</span>
+</a>
+        </div>
+    </div>
+
+    <div class="rest-categories-section">
+        <div class="categories-grid">
+<a href="cars.html" class="cat-new">
+    <img src="cars.jpg" alt="سيارات">
+    <span>سيارات</span>
+</a>
+<a href="toys.html" class="cat-new">
+    <img src="toys.jpeg" alt="ألعاب وأطفال">
+    <span>ألعاب وأطفال</span>
+</a>          
+<a href="realestate.html" class="cat-new">
+    <img src="realestate.jpg" alt="عقارات">
+    <span>عقارات</span>
+</a>          
+<a href="restaurants.html" class="cat-new">
+    <img src="food.jpg" alt="مطاعم">
+    <span>مطاعم</span>
+</a>
+<a href="books.html" class="cat-new">
+    <img src="books.jpg" alt="كتب وقرطاسية">
+    <span>كتب وقرطاسية</span>
+</a>
+<a href="makeup.html" class="cat-new">
+    <img src="makeup.jpg" alt="مكياج وعطور">
+    <span>مكياج وعطور</span>
+</a>
+<a href="watches.html" class="cat-new">
+    <img src="watches.jpg" alt="ساعات وإكسوارات">
+    <span>ساعات وإكسسوارات</span>
+</a>           
+<a href="food.html" class="cat-new">
+    <img src="grocery.jpg" alt="منتجات غذائية">
+    <span>منتجات غذائية</span>
+</a>
+<a href="renewable.html" class="cat-new">
+    <img src="solar.jpg" alt="الطاقة المتجددة">
+    <span>الطاقة المتجددة</span>
+</a>          
+<a href="building.html" class="cat-new">
+    <img src="building.jpg" alt="مواد بناء">
+    <span>مواد بناء</span>
+</a>           
+<a href="pharmacy.html" class="cat-new">
+    <img src="pharmacy.jpg" alt="صيدلية">
+    <span>صيدلية وأدوية</span>
+</a>
+<a href="agropharma.html" class="cat-new">
+    <img src="agropharma.jpg" alt="صيدلية زراعية">
+    <span>صيدلية زراعية</span>
+</a>           
+<a href="sports.html" class="cat-new">
+    <img src="sports.jpg" alt="رياضة وجيم">
+    <span>رياضة وجيم</span>
+</a>           
+<a href="kids.html" class="cat-new">
+    <img src="kids.jpg" alt="عالم الأطفال">
+    <span>عالم الأطفال</span>
+</a>
+<a href="bags-shoes.html" class="cat-new">
+    <img src="bags-shoes.jpg" alt="حقائب وأحذية">
+    <span>حقائب وأحذية</span>
+</a>        </div>
+    </div>
+
+    <div class="exclusive-stories">
+        <div class="stories-container">
+            <div class="story vip"><img src="p4.jpg" alt="Samsung"><span>Samsung Syria</span></div>
+            <div class="story vip"><img src="p1.jpg" alt="Apple"><span>Apple Premium</span></div>
+            <div class="story vip"><img src="p5.jpg" alt="Zara"><span>Zara Official</span></div>
+            <div class="story vip"><img src="p8.jpg" alt="LV"><span>Louis Vuitton</span></div>
+            <div class="story vip"><img src="p2.jpg" alt="Nike"><span>Nike Syria</span></div>
+        </div>
+    </div>
+
+   <!-- قسم المنتجات المميزة + زر "عرض الكل" -->
+<div style="padding:50px 20px;background:linear-gradient(135deg,#fffdf0,#fff9e6);border-radius:30px;margin:40px 20px;box-shadow:0 15px 50px rgba(243,156,18,0.15)">
+    <div style="max-width:1500px;margin:auto">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;flex-wrap:wrap;gap:20px">
+            <h2 class="section-title" style="font-size:42px;color:#d35400;margin:0">
+                <i class="fas fa-star" style="color:#f39c12"></i> منتجات مميزة وعروض لا تُفوَّت
+            </h2>
+            <a href="featured.html" style="background:#f39c12;color:white;padding:16px 40px;border-radius:50px;font-size:20px;font-weight:900;box-shadow:0 10px 30px rgba(243,156,18,0.4);transition:0.4s;display:flex;align-items:center;gap:12px">
+                عرض الكل <i class="fas fa-arrow-left"></i>
+            </a>
+        </div>
+
+     
+
+        <!-- الشبكة اللي هتتملي تلقائيًا -->
+        <div id="featuredProducts" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:40px"></div>
+    </div>
+</div>
+
+
+    <!-- قسم العروض والتنزيلات النارية في الصفحة الرئيسية -->
+<div style="padding:70px 20px;background:linear-gradient(135deg,#ffebee,#ffe0e0);border-radius:40px;margin:50px 20px;box-shadow:0 25px 80px rgba(231,76,60,0.25);position:relative;overflow:hidden">
+    <div style="position:absolute;top:0;right:0;opacity:0.08;font-size:300px;font-weight:900;color:#e74c3c;pointer-events:none">SALE</div>
+    
+    <div style="max-width:1500px;margin:auto;position:relative;z-index:2">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:45px;flex-wrap:wrap;gap:25px">
+            <h2 style="font-size:900 48px 'Segoe UI';color:#c0392b;margin:0">
+                <i class="fas fa-fire fa-beat" style="color:#e74c3c"></i> 
+                العروض والتنزيلات النارية – حتى 70%
+            </h2>
+            <a href="offers.html" style="background:linear-gradient(45deg,#e74c3c,#c0392b);color:white;padding:20px 55px;border-radius:50px;font-size:24px;font-weight:900;box-shadow:0 15px 40px rgba(231,76,60,0.5);transition:0.4s;display:flex;align-items:center;gap:16px">
+                جميع العروض <i class="fas fa-arrow-left"></i>
+            </a>
+        </div>
+
+        <!-- الشبكة اللي هتتملي تلقائيًا بالعروض القوية -->
+        <div id="offersProducts" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:45px"></div>
+    </div>
+</div>
+
+   <!-- قسم الأكثر مبيعًا في الصفحة الرئيسية -->
+<div style="padding:70px 20px;background:linear-gradient(135deg,#fffde6,#fffacd);border-radius:40px;margin:50px 20px;box-shadow:0 25px 80px rgba(241,196,15,0.25)">
+    <div style="max-width:1500px;margin:auto">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:45px;flex-wrap:wrap;gap:25px">
+            <h2 style="font-size:48px;color:#d4ac0d;margin:0;font-weight:900">
+                <i class="fas fa-crown" style="color:#f1c40f"></i> الأكثر مبيعًا في سوريا الآن
+            </h2>
+            <a href="bestsellers.html" style="background:#f1c40f;color:#2c3e50;padding:20px 55px;border-radius:50px;font-size:24px;font-weight:900;box-shadow:0 15px 40px rgba(241,196,15,0.5);transition:0.4s;display:flex;align-items:center;gap:16px">
+                شاهد الكل <i class="fas fa-arrow-left"></i>
+            </a>
+        </div>
+
+        <div id="bestsellersProducts" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:45px"></div>
+    </div>
+</div>
+
+    <!-- شريط الماركات -->
+    <div class="brands-stories">
+        <h2 class="section-title">تسوق حسب الماركة</h2>
+        <div class="brands-container" id="brandsScroll">
+            <div class="brand-item"><img src="apple.jpg" alt="Apple"><p>Apple</p></div>
+            <div class="brand-item"><img src="samsung.jpg" alt="Samsung"><p>Samsung</p></div>
+            <div class="brand-item"><img src="nike.jpg" alt="Nike"><p>Nike</p></div>
+            <div class="brand-item"><img src="adidas.jpg" alt="Adidas"><p>Adidas</p></div>
+            <div class="brand-item"><img src="zara.jpg" alt="Zara"><p>Zara</p></div>
+            <div class="brand-item"><img src="gucci.jpg" alt="Gucci"><p>Gucci</p></div>
+            <div class="brand-item"><img src="louisvuitton.jpg" alt="Louis Vuitton"><p>Louis Vuitton</p></div>
+            <div class="brand-item"><img src="Chanel.jpg" alt="Chanel"><p>Chanel</p></div>
+            <div class="brand-item"><img src="Prada.jpg" alt="Prada"><p>Prada</p></div>
+            <div class="brand-item"><img src="Sony.jpg" alt="Sony"><p>Sony</p></div>
+            <div class="brand-item"><img src="Xiaomi.jpg" alt="Xiaomi"><p>Xiaomi</p></div>
+            <div class="brand-item"><img src="Huawei.jpg" alt="Huawei"><p>Huawei</p></div>
+
+           <!-- زر "عرض الكل" المحدث – يودي مباشرة على brands.html -->
+<div class="brand-item all-brands-btn" onclick="window.location.href='brands.html'" style="cursor:pointer;">
+    <div class="icon-all">
+        <i class="fas fa-th-large"></i>
+    </div>
+    <p style="font-weight:900;font-size:18px;margin:12px 0 6px;">عرض كل الماركات</p>
+    <span style="font-size:28px;font-weight:bold;color:var(--brand);">→</span>
+</div>
+        </div>
+    </div>
+
+    <!-- قسم استكشاف منتجات جديدة ومتنوعة + زر استكشف المزيد -->
+<div style="padding:80px 20px;background:linear-gradient(135deg,#f8fdfc,#e8f7f5);border-radius:50px;margin:60px 20px;box-shadow:0 30px 90px rgba(44,191,181,0.22);position:relative;overflow:hidden">
+    <div style="position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:rgba(44,191,181,0.07);border-radius:50%;pointer-events:none"></div>
+    <div style="position:absolute;bottom:-80px;left:-80px;width:400px;height:400px;background:rgba(44,191,181,0.09);border-radius:50%;pointer-events:none"></div>
+
+    <div style="max-width:1550px;margin:auto;position:relative;z-index:2">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:50px;flex-wrap:wrap;gap:30px">
+            <h2 style="font-size:52px;color:#063d28;margin:0;font-weight:900">
+                <i class="fas fa-compass fa-spin" style="color:#2cbfb5"></i>
+                منتجات يمكنك استكشافها الآن
+            </h2>
+            <div style="display:flex;gap:15px;flex-wrap:wrap;align-items:center">
+                <button onclick="scrollExplore(-1)" style="background:#2cbfb5;color:white;padding:16px 28px;border-radius:50px;font-size:20px;cursor:pointer;box-shadow:0 8px 25px rgba(44,191,181,0.4);transition:0.3s">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button onclick="scrollExplore(1)" style="background:#2cbfb5;color:white;padding:16px 28px;border-radius:50px;font-size:20px;cursor:pointer;box-shadow:0 8px 25px rgba(44,191,181,0.4);transition:0.3s">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- المنتجات تظهر أفقيًا مع التمرير -->
+        <div id="exploreProducts" style="display:flex;gap:40px;overflow-x:auto;padding:20px 0;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none">
+            <!-- سيتم تعبئتها تلقائيًا من الجافاسكريبت -->
+        </div>
+
+        <!-- زر استكشف المزيد في المنتصف -->
+        <div style="text-align:center;margin-top:50px">
+            <a href="explore.html" style="background:linear-gradient(45deg,#2cbfb5,#063d28);color:white;padding:20px 80px;border-radius:60px;font-size:28px;font-weight:900;box-shadow:0 15px 40px rgba(44,191,181,0.5);transition:0.5s;display:inline-flex;align-items:center;gap:18px">
+                <i class="fas fa-sparkles fa-beat"></i>
+                استكشف المزيد من المنتجات
+                <i class="fas fa-arrow-left"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+    <div style="padding:20px 0;background:var(--light)">
+        <h2 class="section-title">قد تهتم أيضًا</h2>
+        <div style="max-width:1450px;margin:auto;padding:0 20px;display:flex;flex-wrap:wrap;gap:20px;justify-content:center;">
+            <a href="#" class="add" style="padding:20px 40px;border-radius:50px;font-size:20px;">آيفون 15 برو</a>
+            <a href="#" class="add" style="padding:20px 40px;border-radius:50px;font-size:20px;">ساعات ذكية</a>
+            <a href="#" class="add" style="padding:20px 40px;border-radius:50px;font-size:20px;">لابتوب جيمنج</a>
+            <a href="#" class="add" style="padding:20px 40px;border-radius:50px;font-size:20px;">فساتين سهرة</a>
+            <a href="#" class="add" style="padding:20px 40px;border-radius:50px;font-size:20px;">أحذية رياضية</a>
+        </div>
+    </div>
+
+    <!-- باقي الأقسام النصية والفوتر (بدون أي تغيير) -->
+    <div class="info-section"><h2>لمحة عن تريندات</h2><p>تريندات هو أول وأكبر منصة تسوق إلكتروني شاملة في سوريا، نوفر لك كل ما تحتاجه من منتجات أصلية بأسعار تنافسية مع شحن سريع وآمن إلى كل المحافظات.</p><p>من الهدايا والإلكترونيات إلى السيارات والعقارات – كل شيء موجود في مكان واحد بضمان الجودة والثقة.</p></div>
+    <div class="info-section"><h2>كل ما تريده موجود على تريندات</h2><p>تسوق أحدث الإلكترونيات، الأزياء العالمية، الأثاث الفاخر، السيارات، العقارات، المطاعم، الهدايا، المكياج، الألعاب، الأدوية، وكل شيء تتخيله – بضغطة زر!</p></div>
+    <div class="info-section"><h2>فرص لا تُفوَّت مع خصومات تصل إلى 70%</h2><p>عروض يومية حصرية – خصومات على الماركات العالمية – شحن مجاني – دفع عند الاستلام – ضمان استرجاع 14 يوم!</p></div>
+    <div class="info-section"><h2>قطع الموضة العصرية</h2><p>أحدث صيحات الموضة من باريس وميلانو ولندن – فساتين، أحذية، حقائب، ساعات، إكسسوارات – كلها متوفرة بأسعار لا تُقاوم.</p></div>
+    <div class="info-section"><h2>أسعار معقولة تناسب الجميع</h2><p>نؤمن أن التسوق الفاخر حق للجميع، لذلك نقدم أفضل الأسعار في السوق مع عروض يومية وتنزيلات مستمرة.</p></div>
+    <div class="info-section"><h2>كل احتياجاتك موجودة على تريندات</h2><p>هدايا • ملابس رجالي ونسائي • إلكترونيات • سيارات • عقارات • مطاعم • ألعاب • مكياج • ساعات • أثاث • رياضة • أطفال • مواد بناء • صيدليات • وأكثر بكثير!</p></div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col"><h3>المنطقة</h3><select style="width:100%;padding:12px;border-radius:12px;background:#333;color:white;border:none"><option>دمشق</option><option>حلب</option><option>اللاذقية</option></select></div>
+            <div class="footer-col"><h3>التعليمات</h3><a href="faq.html">الأسئلة الشائعة</a><a href="help.html">المساعدة المباشرة</a></div>
+            <div class="footer-col"><h3>البائع</h3><a href="seller.html">بيع على تريندات</a><a href="concepts.html">المفاهيم الأساسية</a><a href="academy.html">أكاديمية تريندات</a></div>
+            <div class="footer-col"><h3>الحملات</h3><a href="offers.html">العروض</a><a href="discounts.html">التنزيلات</a><a href="vip.html">VIP</a><a href="gifts.html">الهدايا</a></div>
+            <div class="footer-col"><h3>تريندات</h3><a href="about.html">من نحن</a><a href="careers.html">المهنية</a><a href="sustainability.html">الاستدامة</a><a href="contact.html">التواصل</a><a href="safety.html">الأمان</a></div>
+            <div class="footer-col"><h3>تواصلوا معنا</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+                <p style="margin:25px 0">حمل التطبيق</p>
+                <a href="#"><img src="appstore.png" style="height:45px;margin:5px"></a>
+                <a href="#"><img src="googleplay.png" style="height:45px;margin:5px"></a>
+            </div>
+        </div>
+        <div class="copyright">
+            شروط الاستخدام | حماية البيانات الشخصية © 2025 تريندات - كل الحقوق محفوظة
+        </div>
+    </footer>
+
+    <script>
+
+
+        // السلايدر
+        let i = 0;
+        const slides = document.querySelectorAll('.slide');
+        setInterval(() => {
+            slides[i].classList.remove('active');
+            i = (i + 1) % slides.length;
+            slides[i].classList.add('active');
+        }, 4000);
+
+        // عدد السلة
+        document.getElementById('cartCount').textContent = 0;
+    </script>
+    <script>
+// قاعدة بيانات المنتجات المميزة 2025 – سوريا
+const featuredProducts = [
+    { image: "https://via.placeholder.com/800x800/f39c12/ffffff?text=iPhone+16+Pro+Max", name: "آيفون 16 برو ماكس 1TB", brand: "Apple", oldPrice: 48500000, price: 42900000, badge: "الأكثر مبيعًا", save: "وفر 5.6 مليون!" },
+    { image: "https://via.placeholder.com/800x800/e67e22/ffffff?text=Rolex+2025", name: "رولكس سبمارينر أخضر 41 مم 2025", brand: "Rolex", price: 58000000, badge: "جديد 2025" },
+    { image: "https://via.placeholder.com/800x800/9c27b0/ffffff?text=LV+Speedy", name: "لويس فيتون سبيدي 30 مونوغرام", brand: "Louis Vuitton", oldPrice: 52000000, price: 48500000, badge: "عرض حصري", save: "وفر 3.5 مليون" },
+    { image: "https://via.placeholder.com/800x800/27ae60/ffffff?text=لوح+شمسي+550W", name: "لوح شمسي LONGI 550 واط Hi-MO", brand: "LONGI", price: 2850000, badge: "تريند الطاقة" },
+    { image: "https://via.placeholder.com/800x800/ff6b6b/ffffff?text=عربة+Chicco", name: "عربة أطفال شيكو 3×1 فاخرة", brand: "Chicco", oldPrice: 9500000, price: 7950000, badge: "للأمهات", save: "خصم 16%" },
+    { image: "https://via.placeholder.com/800x800/e74c3c/ffffff?text=بانادول+إكسترا", name: "بانادول إكسترا 24 قرص", brand: "Panadol", price: 68000, badge: "الأكثر طلبًا" },
+    { image: "https://via.placeholder.com/800x800/d35400/ffffff?text=دامبلز+كامل", name: "طقم دامبلز 5-50 كغ + رف حديد", brand: "IronBull", price: 18500000, badge: "جيم منزلي" },
+    { image: "https://via.placeholder.com/800x800/2cbfb5/ffffff?text=PS5+Pro", name: "بلايستيشن 5 برو 2025", brand: "Sony", oldPrice: 28500000, price: 24800000, badge: "حصري تريندات", save: "وفر 3.7 مليون!" },
+    { image: "https://via.placeholder.com/800x800/8e44ad/ffffff?text=Gucci+Marmont", name: "حقيبة قوتشي مارمونت ميني", brand: "Gucci", price: 39800000, badge: "فخامة مضمونة" },
+    { image: "https://via.placeholder.com/800x800/ff6b6b/ffffff?text=LEGO+1500", name: "ليغو كلاسيك 1500 قطعة", brand: "LEGO", price: 2850000, badge: "للأطفال" }
+];
+
+function renderFeatured() {
+    const container = document.getElementById("featuredProducts");
+    if (!container) return;
+
+    container.innerHTML = featuredProducts.map(p => `
+        <div class="feat-card" style="background:#fff;border-radius:36px;overflow:hidden;box-shadow:0 22px 70px rgba(243,156,18,0.25);transition:0.6s;cursor:pointer;position:relative" onclick="window.location.href='featured.html'">
+            ${p.badge ? `<div style="position:absolute;top:15px;right:15px;background:#e67e22;color:#fff;padding:10px 26px;border-radius:30px;font-weight:900;font-size:15px;z-index:10;box-shadow:0 4px 15px rgba(0,0,0,0.3)">${p.badge}</div>` : ''}
+            <img src="${p.image}" alt="${p.name}" style="width:100%;height:340px;object-fit:contain;background:#fff9e6;padding:30px;transition:0.3s" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+            <div style="padding:30px;text-align:center">
+                <div style="color:#f39c12;font-weight:bold;font-size:21px">${p.brand}</div>
+                <h3 style="font-size:25px;margin:14px 0;color:#2c3e50;line-height:1.4;font-weight:900">${p.name}</h3>
+                ${p.oldPrice ? `<del style="color:#aaa;font-size:21px">${p.oldPrice.toLocaleString()} ل.س</del><br>` : ''}
+                <div style="color:#e67e22;font-size:38px;font-weight:900;margin:16px 0">${p.price.toLocaleString()} ل.س</div>
+                ${p.save ? `<div style="background:#e74c3c;color:white;padding:10px 24px;border-radius:30px;display:inline-block;font-weight:bold;margin:10px 0">${p.save}</div>` : ''}
+                <button style="margin-top:20px;background:linear-gradient(45deg,#f39c12,#e67e22);color:white;border:none;padding:20px;width:100%;border-radius:0 0 36px 36px;font-size:25px;font-weight:900;cursor:pointer;transition:0.4s" 
+                        onmouseover="this.style.background='linear-gradient(45deg,#d35400,#c0392b)'" 
+                        onmouseout="this.style.background='linear-gradient(45deg,#f39c12,#e67e22)'">
+                    أضف للسلة الآن
+                </button>
+            </div>
+        </div>
+    `).join("");
+}
+
+// تشغيل عند تحميل الصفحة
+document.addEventListener("DOMContentLoaded", renderFeatured);
+</script>
+
+<script>
+// عروض نارية حقيقية للسوق السوري 2025 – خصومات تصل 70%
+const hotOffers = [
+    { image: "https://via.placeholder.com/800x800/e74c3c/ffffff?text=iPhone+15+Pro+Max", name: "آيفون 15 برو ماكس 512GB", brand: "Apple", oldPrice: 42500000, price: 14800000, discount: "65%", save: "وفر 27.7 مليون!" },
+    { image: "https://via.placeholder.com/800x800/c0392b/ffffff?text=PS5+Slim+Bundle", name: "بلايستيشن 5 سليم + لعبتين + يد إضافية", brand: "Sony", oldPrice: 24500000, price: 10900000, discount: "55%", save: "وفر 13.6 مليون!" },
+    { image: "https://via.placeholder.com/800x800/e67e22/ffffff?text=Samsung+S24+Ultra", name: "سامسونج S24 ألترا 512GB", brand: "Samsung", oldPrice: 32800000, price: 18900000, discount: "42%", save: "وفر 13.9 مليون" },
+    { image: "https://via.placeholder.com/800x800/9c27b0/ffffff?text=Gucci+Bag+Sale", name: "حقيبة قوتشي مارمونت جلد أصلي", brand: "Gucci", oldPrice: 45000000, price: 29800000, discount: "34%", save: "وفر 15.2 مليون" },
+    { image: "https://via.placeholder.com/800x800/d35400/ffffff?text=دامبلز+عرض", name: "طقم دامبلز كامل + بنش + بار", brand: "IronBull", oldPrice: 22000000, price: 11900000, discount: "46%", save: "وفر 10.1 مليون" },
+    { image: "https://via.placeholder.com/800x800/27ae60/ffffff?text=لوح+شمسي+عرض", name: "لوح شمسي 550 واط (10 قطع)", brand: "LONGI", oldPrice: 32000000, price: 21900000, discount: "31%", save: "وفر 10.1 مليون" },
+    { image: "https://via.placeholder.com/800x800/ff6b6b/ffffff?text=عربة+أطفال+عرض", name: "عربة أطفال شيكو 3×1 + كرسي سيارة", brand: "Chicco", oldPrice: 9500000, price: 4900000, discount: "48%", save: "وفر 4.6 مليون" },
+    { image: "https://via.placeholder.com/800x800/2cbfb5/ffffff?text=MacBook+Air+M2", name: "ماك بوك إير M2 512GB", brand: "Apple", oldPrice: 29800000, price: 18900000, discount: "36%", save: "وفر 10.9 مليون" }
+];
+
+function renderHotOffers() {
+    const container = document.getElementById("offersProducts");
+    if (!container) return;
+
+    container.innerHTML = hotOffers.map(p => `
+        <div style="background:#fff;border-radius:38px;overflow:hidden;box-shadow:0 25px 80px rgba(231,76,60,0.3);transition:0.6s;position:relative;cursor:pointer" onclick="window.location.href='offers.html'">
+            <div style="position:absolute;top:0;left:0;background:#e74c3c;color:white;padding:16px 45px;font:900 22px 'Segoe UI';border-radius:0 0 38px 0;clip-path:polygon(0 0,100% 0,85% 100%,0 100%)">
+                تخفيض ${p.discount}
+            </div>
+            <div style="position:absolute;top:18px;right:18px;background:#c0392b;color:white;width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:900 28px 'Segoe UI';box-shadow:0 8px 25px rgba(0,0,0,0.4)">
+                -${p.discount}
+            </div>
+            <img src="${p.image}" alt="${p.name}" style="width:100%;height:350px;object-fit:contain;background:#fff5f5;padding:30px">
+            <div style="padding:32px;text-align:center">
+                <div style="color:#e74c3c;font-weight:bold;font-size:22px">${p.brand}</div>
+                <h3 style="font-size:26px;margin:15px 0;color:#2c3e50;line-height:1.4;font-weight:900">${p.name}</h3>
+                <del style="color:#999;font-size:22px">${p.oldPrice.toLocaleString()} ل.س</del>
+                <div style="color:#e74c3c;font-size:40px;font-weight:900;margin:15px 0">${p.price.toLocaleString()} ل.س</div>
+                <div style="background:#27ae60;color:white;padding:12px 30px;border-radius:30px;font-weight:bold;display:inline-block">${p.save}</div>
+                <button style="margin-top:22px;background:linear-gradient(45deg,#e74c3c,#c0392b);color:white;border:none;padding:22px;width:100%;border-radius:0 0 38px 38px;font-size:26px;font-weight:900;cursor:pointer;transition:0.5s"
+                        onmouseover="this.style.background='linear-gradient(45deg,#c0392b,#a93226)'"
+                        onmouseout="this.style.background='linear-gradient(45deg,#e74c3c,#c0392b)'">
+                    <i class="fas fa-bolt"></i> اشترِ الآن قبل الانتهاء
+                </button>
+            </div>
+        </div>
+    `).join("");
+}
+
+document.addEventListener("DOMContentLoaded", renderHotOffers);
+</script>
+
+<script>
+// الأكثر مبيعًا حقيقيًا في سوريا 2025
+const bestsellers = [
+    { rank:1, sold:"8,421", image:"https://via.placeholder.com/800x800/f1c40f/2c3e50?text=iPhone+16+Pro+Max", name:"آيفون 16 برو ماكس 512GB", brand:"Apple", price:44900000 },
+    { rank:2, sold:"6,238", image:"https://via.placeholder.com/800x800/e67e22/ffffff?text=لوح+شمسي", name:"لوح شمسي 550 واط LONGI", brand:"LONGI", price:2850000 },
+    { rank:3, sold:"5,119", image:"https://via.placeholder.com/800x800/27ae60/ffffff?text=بانادول+إكسترا", name:"بانادول إكسترا 100 قرص", brand:"Panadol", price:185000 },
+    { rank:4, sold:"4,872", image:"https://via.placeholder.com/800x800/ff6b6b/ffffff?text=حفاضات+بامبرز", name:"بامبرز بريميوم كير مقاس 4 - كرتونة", brand:"Pampers", price:1850000 },
+    { rank:5, sold:"4,305", image:"https://via.placeholder.com/800x800/d35400/ffffff?text=واي+بروتين", name:"واي بروتين Gold Standard 5lbs", brand:"Optimum Nutrition", price:2950000 },
+    { rank:6, sold:"3,981", image:"https://via.placeholder.com/800x800/9c27b0/ffffff?text=Rolex+Datejust", name:"رولكس ديت جست 41 مم أسود", brand:"Rolex", price:48500000 },
+    { rank:7, sold:"3,614", image:"https://via.placeholder.com/800x800/2cbfb5/ffffff?text=PS5+Slim", name:"بلايستيشن 5 سليم 1 تيرا", brand:"Sony", price:21800000 },
+    { rank:8, sold:"3,207", image:"https://via.placeholder.com/800x800/e74c3c/ffffff?text=عطر+كريد", name:"عطر كريد أفينتوس 100 مل أصلي", brand:"Creed", price:9850000 }
+];
+
+function renderBestsellers() {
+    const container = document.getElementById("bestsellersProducts");
+    if (!container) return;
+    container.innerHTML = bestsellers.map(p => `
+        <div style="background:#fff;border-radius:38px;overflow:hidden;box-shadow:0 25px 80px rgba(241,196,15,0.3);transition:0.6s;position:relative;cursor:pointer" onclick="window.location.href='bestsellers.html'">
+            <div style="position:absolute;top:-18px;left:18px;background:#f1c40f;color:#2c3e50;padding:20px 30px;border-radius:50%;font:900 40px 'Segoe UI';box-shadow:0 10px 30px rgba(0,0,0,0.3)">${p.rank}</div>
+            <div style="position:absolute;top:20px;right:20px;background:#27ae60;color:white;padding:10px 24px;border-radius:30px;font-weight:900">بيع ${p.sold} مرة</div>
+            <img src="${p.image}" alt="${p.name}" style="width:100%;height:350px;object-fit:contain;background:#fffde6;padding:30px">
+            <div style="padding:32px;text-align:center">
+                <div style="color:#f1c40f;font-weight:bold;font-size:22px">${p.brand}</div>
+                <h3 style="font-size:26px;margin:15px 0;line-height:1.4;font-weight:900">${p.name}</h3>
+                <div style="color:#2c3e50;font-size:40px;font-weight:900">${p.price.toLocaleString()} ل.س</div>
+                <button style="margin-top:20px;background:#f1c40f;color:#2c3e50;border:none;padding:22px;width:100%;border-radius:0 0 38px 38px;font-size:26px;font-weight:900;cursor:pointer;transition:0.4s"
+                        onmouseover="this.style.background='#e67e22';this.style.color='white'"
+                        onmouseout="this.style.background='#f1c40f';this.style.color='#2c3e50'">
+                    <i class="fas fa-crown"></i> الأكثر مبيعًا – اطلبه الآن
+                </button>
+            </div>
+        </div>
+    `).join("");
+}
+document.addEventListener("DOMContentLoaded", renderBestsellers);
+</script>
+
+<script>
+// منتجات متنوعة وجذابة للاستكشاف – تغطي كل الأقسام
+const exploreItems = [
+    { img:"https://via.placeholder.com/800x800/2cbfb5/ffffff?text=Galaxy+Z+Fold7", name:"جالكسي Z فولد 7", brand:"Samsung", price:"68,500,000 ل.س", cat:"إلكترونيات" },
+    { img:"https://via.placeholder.com/800x800/ff6b6b/ffffff?text=فستان+أبيض+طويل", name:"فستان سهرة أبيض فاخر", brand:"Elie Saab", price:"18,900,000 ل.س", cat:"أزياء" },
+    { img:"https://via.placeholder.com/800x800/9c27b0/ffffff?text=Chanel+No5", name:"عطر شانيل نمبر 5 100 مل", brand:"Chanel", price:"6,850,000 ل.س", cat:"عطور" },
+    { img:"https://via.placeholder.com/800x800/d35400/ffffff?text=مشاية+كهربائية", name:"مشاية كهربائية 140 كغ", brand:"ProForm", price:"14,200,000 ل.س", cat:"رياضة" },
+    { img:"https://via.placeholder.com/800x800/27ae60/ffffff?text=إنفرتر+10كيلو", name:"إنفرتر هايبرد 10 كيلو", brand:"Growatt", price:"28,500,000 ل.س", cat:"طاقة شمسية" },
+    { img:"https://via.placeholder.com/800x800/e74c3c/ffffff?text=طقم+أدوات+مطبخ", name:"طقم أدوات مطبخ 32 قطعة", brand:"Tefal", price:"2,980,000 ل.س", cat:"أدوات منزلية" },
+    { img:"https://via.placeholder.com/800x800/f1c40f/ffffff?text=لعبة+PS5+FC25", name:"فيفا 25 إصدار خاص PS5", brand:"EA Sports", price:"2,850,000 ل.س", cat:"ألعاب فيديو" },
+    { img:"https://via.placeholder.com/800x800/8e44ad/ffffff?text=ساعة+Cartier", name:"كارتير بالون بلو ذهب", brand:"Cartier", price:"198,000,000 ل.س", cat:"ساعات" },
+    { img:"https://via.placeholder.com/800x800/ff6b6b/ffffff?text=سرير+أطفال", name:"سرير أطفال خشب + مرتبة", brand:"Mothercare", price:"6,750,000 ل.س", cat:"أطفال" },
+    { img:"https://Holds/800x800/2cbfb5/ffffff?text=كاميرا+Canon+R5", name:"كانون R5 Mark II", brand:"Canon", price:"118,000,000 ل.س", cat:"تصوير" }
+];
+
+function renderExplore() {
+    const container = document.getElementById("exploreProducts");
+    if (!container) return;
+
+    container.innerHTML = exploreItems.map(item => `
+        <div style="min-width:340px;background:white;border-radius:38px;overflow:hidden;box-shadow:0 20px 60px rgba(44,191,181,0.25);transition:all 0.5s;cursor:pointer;flex-shrink:0" onclick="alert('سيتم توجيهك قريبًا إلى المنتج!')">
+            <div style="position:relative">
+                <img src="${item.img}" alt="${item.name}" style="width:100%;height:320px;object-fit:contain;background:#f0fdfc;padding:25px">
+                <div style="position:absolute;top:15px;left:15px;background:#2cbfb5;color:white;padding:8px 20px;border-radius:25px;font-size:14px;font-weight:bold">${item.cat}</div>
+            </div>
+            <div style="padding:28px;text-align:center">
+                <div style="color:#2cbfb5;font-weight:bold;font-size:20px">${item.brand}</div>
+                <h3 style="font-size:24px;margin:12px 0;line-height:1.4;font-weight:900;color:#063d28">${item.name}</h3>
+                <div style="color:#063d28;font-size:34px;font-weight:900">${item.price}</div>
+                <button style="margin-top:18px;background:#2cbfb5;color:white;border:none;padding:18px 40px;border-radius:50px;font-size:22px;font-weight:bold;cursor:pointer;width:100%;transition:0.3s"
+                        onmouseover="this.style.background='#063d28'" 
+                        onmouseout="this.style.background='#2cbfb5'">
+                    <i class="fas fa-eye"></i> اكتشف المنتج
+                </button>
+            </div>
+        </div>
+    `).join("");
+}
+
+// أزرار التمرير الأفقي
+function scrollExplore(direction) {
+    const container = document.getElementById("exploreProducts");
+    const scrollAmount = 380;
+    container.scrollBy({ left: direction * scrollAmount, behavior: "smooth" });
+}
+
+document.addEventListener("DOMContentLoaded", renderExplore);
+</script>
+
+</body>
+</html>

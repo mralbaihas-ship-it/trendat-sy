@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الهدايا الفاخرة | تريندات - التسوق الأول في سوريا 2025</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="favicon.png" sizes="512x512" type="image/png">
+    <style>
+        :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc;--gold:#d4af37}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light);color:var(--dark);overflow-x:hidden}
+
+        /* نفس الهيدر والنافبار */
+        .topbar{background:var(--main);position:fixed;top:0;width:100%;z-index:1100;box-shadow:0 4px 20px rgba(6,61,40,0.3);display:flex;align-items:center;justify-content:space-between;padding:10px 30px;height:78px;}
+        .logo img{height:70px;transition:0.3s;cursor:pointer}
+        .logo img:hover{transform:scale(1.08)}
+        .search-box{position:relative;width:100%;max-width:500px}
+        .search-box input{width:100%;padding:14px 55px 14px 20px;border:none;border-radius:50px;font-size:17px;box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+        .search-box i{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--main);font-size:22px}
+        .top-right{display:flex;gap:18px;align-items:center;color:white;font-weight:600;}
+        .top-right a{color:white;text-decoration:none;padding:10px 18px;border-radius:50px;transition:0.3s;cursor:pointer}
+        .top-right a:hover{background:rgba(255,255,255,0.25)}
+        .seller-btn{background:rgba(255,255,255,0.25)!important;border:2px solid rgba(255,255,255,0.4);font-weight:bold;padding:12px 20px!important}
+        .seller-btn:hover{background:white!important;color:#063d28!important;transform:translateY(-3px)}
+        .cart{position:relative;cursor:pointer}
+        .cart span{position:absolute;top:-8px;left:-8px;background:red;color:white;border-radius:50%;width:22px;height:22px;font-size:12px;display:flex;align-items:center;justify-content:center;}
+
+        .navbar{background:white;position:fixed;top:78px;width:100%;z-index:1099;box-shadow:0 4px 15px rgba(0,0,0,0.08);padding:14px 30px;display:flex;gap:40px;justify-content:center;font-weight:600;}
+        .navbar a{color:var(--dark);text-decoration:none;transition:0.3s;position:relative}
+        .navbar a:hover{color:var(--main);font-weight:800}
+        .navbar a.active{color:var(--gold);font-weight:900}
+        .navbar a.active::after{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:40px;height:5px;background:var(--gold);border-radius:3px;}
+
+        /* بانر الهدايا الفخم */
+        .gifts-hero{
+            height:65vh;
+            background:linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.55)), url('https://images.unsplash.com/photo-1543512214-318c7553f230?w=1600&q=80') center/cover no-repeat;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            text-align:center;
+            color:white;
+            margin-top:78px;
+            position:relative;
+        }
+        .gifts-hero::before{
+            content:'';
+            position:absolute;
+            top:0;left:0;width:100%;height:100%;
+            background:linear-gradient(45deg,rgba(212,175,55,0.25),rgba(44,191,181,0.35));
+        }
+        .hero-content{
+            position:relative;
+            z-index:2;
+        }
+        .hero-content h1{
+            font-size:56px;
+            font-weight:900;
+            margin-bottom:20px;
+            text-shadow:0 4px 15px rgba(0,0,0,0.6);
+        }
+        .hero-content p{
+            font-size:24px;
+            margin-bottom:30px;
+        }
+        .hero-btn{
+            background:var(--gold);
+            color:#000;
+            padding:18px 50px;
+            border:none;
+            border-radius:50px;
+            font-size:22px;
+            font-weight:bold;
+            cursor:pointer;
+            box-shadow:0 10px 30px rgba(212,175,55,0.5);
+            transition:0.4s;
+        }
+        .hero-btn:hover{
+            transform:translateY(-8px);
+            box-shadow:0 20px 40px rgba(212,175,55,0.7);
+        }
+
+        /* فلترة سريعة للهدايا */
+        .gifts-filters{
+            background:white;
+            padding:25px 0;
+            box-shadow:0 8px 30px rgba(0,0,0,0.1);
+            position:sticky;
+            top:78px;
+            z-index:1000;
+        }
+        .filters-inner{max-width:1450px;margin:auto;display:flex;flex-wrap:wrap;gap:15px;justify-content:center;align-items:center;}
+        .gift-tag{
+            background:#f8f8f8;
+            color:var(--dark);
+            padding:12px 28px;
+            border-radius:50px;
+            font-weight:600;
+            cursor:pointer;
+            transition:0.3s;
+            border:2px solid transparent;
+        }
+        .gift-tag:hover,.gift-tag.active{
+            background:var(--gold);
+            color:black;
+            border-color:#000;
+            transform:translateY(-4px);
+            box-shadow:0 8px 20px rgba(212,175,55,0.4);
+        }
+
+        /* عنوان الصفحة */
+        .page-title{
+            font-size:44px;
+            text-align:center;
+            margin:70px 0 20px;
+            color:var(--dark);
+            font-weight:900;
+        }
+        .page-subtitle{
+            font-size:21px;
+            text-align:center;
+            color:#555;
+            margin-bottom:50px;
+        }
+
+        /* شبكة الهدايا */
+        .gifts-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+            gap:35px;
+            max-width:1450px;
+            margin:40px auto;
+            padding:0 20px;
+        }
+        .gift-card{
+            background:white;
+            border-radius:28px;
+            overflow:hidden;
+            box-shadow:0 15px 40px rgba(0,0,0,0.12);
+            transition:all 0.5s;
+            position:relative;
+        }
+        .gift-card:hover{
+            transform:translateY(-20px);
+            box-shadow:0 35px 80px rgba(212,175,55,0.35);
+        }
+        .gift-card img{
+            width:100%;
+            height:280px;
+            object-fit:cover;
+        }
+        .gift-ribbon{
+            position:absolute;
+            top:15px;
+            left:15px;
+            background:var(--gold);
+            color:black;
+            padding:8px 18px;
+            border-radius:50px;
+            font-weight:900;
+            font-size:15px;
+            box-shadow:0 4px 15px rgba(212,175,55,0.5);
+        }
+        .gift-info{
+            padding:25px;
+            text-align:center;
+        }
+        .gift-name{
+            font-size:21px;
+            font-weight:800;
+            margin:15px 0;
+        }
+        .gift-for{
+            color:var(--main);
+            font-weight:bold;
+            margin-bottom:10px;
+        }
+        .gift-price{
+            font-size:28px;
+            font-weight:900;
+            color:var(--gold);
+        }
+        .add-gift{
+            background:var(--gold);
+            color:black;
+            border:none;
+            padding:16px;
+            width:100%;
+            font-size:19px;
+            font-weight:bold;
+            cursor:pointer;
+            border-radius:0 0 28px 28px;
+            transition:0.3s;
+        }
+        .add-gift:hover{
+            background:#c19a2b;
+            transform:scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر والنافبار -->
+    <div class="topbar">
+        <div class="logo"><a href="index.html"><img src="logo.png" alt="تريندات"></a></div>
+        <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="ابحث في الهدايا..."></div>
+        <div class="top-right">
+            <a href="login.html?seller=1" class="seller-btn">كن بائعًا</a>
+            <a href="login.html">تسجيل الدخول</a>
+            <a href="cart.html" class="cart"><i class="fas fa-shopping-cart fa-lg"></i><span id="cartCount">7</span></a>
+        </div>
+    </div>
+
+    <div class="navbar">
+       <a href="index.html">الرئيسية</a>
+    <a href="gifts.html">الهدايا</a>
+    <a href="featured.html">منتجات مميزة</a>
+        <a href="offers.html">العروض</a>
+        <a href="bestsellers.html">الأكثر مبيعًا</a>
+        <a href="explore.html"> استكشاف </a>
+        <a href="support.html">خدمة العملاء</a>
+    </div>
+
+    <!-- بانر الهدايا -->
+    <div class="gifts-hero">
+        <div class="hero-content">
+            <h1>أجمل الهدايا لأغلى الناس</h1>
+            <p>عبر عن حبك بطريقة ما تُنسى أبدًا</p>
+            <button class="hero-btn">تسوق الهدايا الآن</button>
+        </div>
+    </div>
+
+    <!-- فلترة سريعة -->
+    <div class="gifts-filters">
+        <div class="filters-inner">
+            <div class="gift-tag active">الكل</div>
+            <div class="gift-tag">لها</div>
+            <div class="gift-tag">له</div>
+            <div class="gift-tag">للأطفال</div>
+            <div class="gift-tag">أعياد ميلاد</div>
+            <div class="gift-tag">زواج</div>
+            <div class="gift-tag">تخرج</div>
+            <div class="gift-tag">عطور ومكياج</div>
+        </div>
+    </div>
+
+    <h1 class="page-title">اختر هديتك المثالية</h1>
+    <p class="page-subtitle">أكثر من 10,000 هدية فاخرة تنتظرك</p>
+
+    <!-- شبكة الهدايا (أضف فيها كل الهدايا يدويًا) -->
+    <div class="gifts-grid">
+        <div class="gift-card">
+            <div class="gift-ribbon">لها</div>
+            <img src="https://via.placeholder.com/400x400/d4af37/000000?text=عطر+Chanel" alt="عطر شانيل">
+            <div class="gift-info">
+                <div class="gift-for">هدية مثالية لها</div>
+                <div class="gift-name">عطر Chanel Coco Mademoiselle</div>
+                <div class="gift-price">1,250,000 ل.س</div>
+                <button class="add-gift">أضف للسلة كهدية</button>
+            </div>
+        </div>
+
+        <div class="gift-card">
+            <div class="gift-ribbon">له</div>
+            <img src="https://via.placeholder.com/400x400/2c3e50/ffffff?text=ساعة+Rolex" alt="ساعة رولكس">
+            <div class="gift-info">
+                <div class="gift-for">هدية فخمة له</div>
+                <div class="gift-name">ساعة رولكس رولكس أصلية</div>
+                <div class="gift-price">18,500,000 ل.س</div>
+                <button class="add-gift">أضف للسلة كهدية</button>
+            </div>
+        </div>
+
+        <!-- كرر الكرت ده قد ما تبي -->
+    </div>
+
+    <script>
+        document.getElementById('cartCount').textContent = 0;
+
+        // الفلاتر السريعة (اختياري)
+        document.querySelectorAll('.gift-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                document.querySelectorAll('.gift-tag').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

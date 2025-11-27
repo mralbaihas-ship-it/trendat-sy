@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تريندات - لوحة التحكم الرئيسية 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<script type="module" src="firebase.js"></script>
+<style>
+    :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc;--gray:#f0f0f0;--success:#27ae60;--warning:#f39c12;--danger:#e74c3c}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
+    body{background:#f4f6f9;color:#222}
+    .container{max-width:1600px;margin:20px auto;background:white;border-radius:20px;box-shadow:0 15px 50px rgba(0,0,0,0.12);overflow:hidden}
+    .header{background:linear-gradient(135deg,var(--main),var(--dark));color:white;padding:40px;text-align:center}
+    .header h1{font-size:46px;font-weight:900}
+    .nav{padding:15px;background:#fff;border-bottom:3px solid var(--main);overflow-x:auto;text-align:center}
+    .nav button{background:var(--gray);border:none;padding:12px 24px;margin:0 6px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;transition:0.3s;display:inline-block}
+    .nav button.active,.nav button:hover{background:var(--main);color:white}
+    .section{padding:40px;display:none}
+    .section.active{display:block}
+    table{width:100%;border-collapse:collapse;margin:20px 0;background:white;border-radius:12px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,0.1)}
+    th{background:var(--main);color:white;padding:15px}
+    td{padding:12px;text-align:center;border-bottom:1px solid #eee}
+    .status-new{background:#f39c12;color:white;padding:5px 12px;border-radius:20px}
+    .status-progress{background:#3498db;color:white;padding:5px 12px;border-radius:20px}
+    .status-delivered{background:var(--success);color:white;padding:5px 12px;border-radius:20px}
+    .debt-table th{background:var(--danger)}
+    .btn{padding:8px 15px;border-radius:8px;color:white;margin:0 3px;cursor:pointer}
+    .success{background:var(--success)}
+    .warning{background:var(--warning)}
+    .danger{background:var(--danger)}
+    .report-btn{background:var(--dark);padding:15px 30px;font-size:18px;border-radius:15px;margin:30px auto;display:block}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>تريندات 2025 - لوحة التحكم الرئيسية</h1>
+        <p>كل الطلبات والمندوبين والمحاسبة تحت سيطرتك</p>
+    </div>
+
+    <div class="nav">
+        <button class="active" onclick="openTab('orders')">الطلبات</button>
+        <button onclick="openTab('drivers')">ديون المندوبين</button>
+        <button onclick="openTab('bank')">رصيد البنك</button>
+        <button onclick="openTab('report')">تقرير اليوم</button>
+    </div>
+
+    <!-- الطلبات -->
+    <div id="orders" class="section active">
+        <h2 style="text-align:center;color:var(--dark)">جميع الطلبات</h2>
+        <div id="ordersList"></div>
+    </div>
+
+    <!-- ديون المندوبين -->
+    <div id="drivers" class="section">
+        <h2 style="text-align:center;color:var(--dark)">ديون المندوبين (الطلبات النقدية)</h2>
+        <div id="driversDebt"></div>
+    </div>
+
+    <!-- رصيد البنك -->
+    <div id="bank" class="section">
+        <h2 style="text-align:center;color:var(--dark)">الطلبات البنكية (في انتظار التأكيد)</h2>
+        <div id="bankPending"></div>
+    </div>
+
+    <!-- تقرير اليوم -->
+    <div id="report" class="section">
+        <h2 style="text-align:center;color:var(--dark)">تقرير اليوم - جاهز للطباعة والتوقيع</h2>
+        <button class="report-btn" onclick="generateReport()">تحميل تقرير اليوم PDF</button>
+        <div id="dailySummary"></div>
+    </div>
+</div>
+
+<script type="module">
+import { db, collection, onSnapshot, query, where, getDocs, doc, updateDoc } from "./firebase.js";
+
+function openTab(tab){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));document.getElementById(tab).classList.add('active');event.target.classList.add('active');}
+
+// عرض الطلبات
+onSnapshot(collection(db, "orders"), (snap) => {
+    let html = `<table><tr><th>رقم الطلب</th><th>العميل</th><th>العنوان</th><th>المجموع</th><th>الدفع</th><th>الحالة</th><th>المندوب</th></tr>`;
+    snap.forEach(d => {
+        const o = d.data();
+        const statusClass = o.status === "جديد" ? "status-new" : o.status === "في التوصيل" ? "status-progress" : "status-delivered";
+        html += `<tr>
+            <td>#${d.id.slice(0,6)}</td>
+            <td>${o.customerName}<br>${o.phone}</td>
+            <td>${o.address}</td>
+            <td>${(o.total + o.shipping).toLocaleString()} ل.س</td>
+            <td>${o.payment}</td>
+            <td><span class="${statusClass}">${o.status}</span></td>
+            <td>${o.driverName || "-"}</td>
+        </tr>`;
+    });
+    html += `</table>`;
+    document.getElementById("ordersList").innerHTML = html;
+    calculateDebts();
+    calculateBank();
+    dailyReport();
+});
+
+// حساب ديون المندوبين
+async function calculateDebts() {
+    const snap = await getDocs(collection(db, "orders"));
+    const debtMap = {};
+    snap.forEach(d => {
+        const o = d.data();
+        if (o.payment === "نقدي" && o.status === "في التوصيل" && o.driverId) {
+            debtMap[o.driverId] = (debtMap[o.driverId] || 0) + o.total + o.shipping;
+        }
+    });
+    let html = `<table class="debt-table"><tr><th>اسم المندوب</th><th>الدين عليه</th></tr>`;
+    for (let id in debtMap) {
+        const driverSnap = await getDoc(doc(db, "drivers", id));
+        const name = driverSnap.exists() ? driverSnap.data().name : "غير معروف";
+        html += `<tr><td>${name}</td><td style="color:var(--danger);font-weight:900">${debtMap[id].toLocaleString()} ل.س</td></tr>`;
+    }
+    html += `</table>`;
+    document.getElementById("driversDebt").innerHTML = html || "لا يوجد ديون حالياً";
+}
+
+// الطلبات البنكية في انتظار التأكيد
+function calculateBank() {
+    onSnapshot(query(collection(db, "orders"), where("payment", "==", "بنكي"), where("status", "==", "تم التسليم")), (snap) => {
+        let html = `<table><tr><th>رقم الطلب</th><th>العميل</th><th>المبلغ</th><th>إجراء</th></tr>`;
+        let total = 0;
+        snap.forEach(d => {
+            const o = d.data();
+            total += o.total + o.shipping;
+            html += `<tr>
+                <td>#${d.id.slice(0,6)}</td>
+                <td>${o.customerName}</td>
+                <td>${(o.total + o.shipping).toLocaleString()} ل.س</td>
+                <td><button class="btn success" onclick="confirmBank('${d.id}')">تأكيد الاستلام</button></td>
+            </tr>`;
+        });
+        html += `<tr><td colspan="3"><b>إجمالي في انتظار التأكيد:</b></td><td><b>${total.toLocaleString()} ل.س</b></td></tr></table>`;
+        document.getElementById("bankPending").innerHTML = html;
+    });
+}
+
+window.confirmBank = async (id) => {
+    if(confirm("تم استلام المبلغ من البنك فعلاً؟")) {
+        await updateDoc(doc(db, "orders", id), {bankConfirmed: true});
+        alert("تم التأكيد بنجاح");
+    }
+};
+
+// تقرير اليوم
+function dailyReport() {
+    const today = new Date().toISOString().slice(0,10);
+    onSnapshot(query(collection(db, "orders"), where("deliveredAt", ">=", new Date(today).getTime())), (snap) => {
+        let cash = 0, bank = 0, count = 0;
+        snap.forEach(d => {
+            const o = d.data();
+            if (o.status === "تم التسليم") {
+                count++;
+                const amount = o.total + o.shipping;
+                if (o.payment === "نقدي") cash += amount;
+                else bank += amount;
+            }
+        });
+        document.getElementById("dailySummary").innerHTML = `
+            <h3>تقرير يوم ${new Date().toLocaleDateString('ar-SY')}</h3>
+            <p>عدد الطلبات المسلمة: <b>${count}</b></p>
+            <p>النقدي: <b>${cash.toLocaleString()} ل.س</b></p>
+            <p>البنكي: <b>${bank.toLocaleString()} ل.س</b></p>
+            <p>الإجمالي اليوم: <b>${(cash+bank).toLocaleString()} ل.س</b></p>
+        `;
+    });
+}
+
+window.generateReport = () => {
+    alert("سيتم تطوير الـ PDF قريبًا جدًا… حاليًا اطبع الصفحة بالكامل Ctrl+P ووقّع عليها");
+};
+</script>
+</body>
+</html>

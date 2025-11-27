@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ملابس وإكسسوارات نسائية | تريندات - التسوق الأول في سوريا 2025</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="0069" href="favicon.png" sizes="512x512" type="image/png">
+    <style>
+        :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc;--feminine:#e91e63}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light);color:var(--dark);overflow-x:hidden}
+
+        /* نفس الهيدر والنافبار */
+        .topbar{background:var(--main);position:fixed;top:0;width:100%;z-index:1100;box-shadow:0 4px 20px rgba(6,61,40,0.3);display:flex;align-items:center;justify-content:space-between;padding:10px 30px;height:78px;}
+        .logo img{height:70px;transition:0.3s;cursor:pointer}
+        .logo img:hover{transform:scale(1.08)}
+        .search-box{position:relative;width:100%;max-width:500px}
+        .search-box input{width:100%;padding:14px 55px 14px 20px;border:none;border-radius:50px;font-size:17px;box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+        .search-box i{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--main);font-size:22px}
+        .top-right{display:flex;gap:18px;align-items:center;color:white;font-weight:600;}
+        .top-right a{color:white;text-decoration:none;padding:10px 18px;border-radius:50px;transition:0.3s;cursor:pointer}
+        .top-right a:hover{background:rgba(255,255,255,0.25)}
+        .seller-btn{background:rgba(255,255,255,0.25)!important;border:2px solid rgba(255,255,255,0.4);font-weight:bold;padding:12px 20px!important}
+        .seller-btn:hover{background:white!important;color:#063d28!important;transform:translateY(-3px)}
+        .cart{position:relative;cursor:pointer}
+        .cart span{position:absolute;top:-8px;left:-8px;background:red;color:white;border-radius:50%;width:22px;height:22px;font-size:12px;display:flex;align-items:center;justify-content:center;}
+
+        .navbar{background:white;position:fixed;top:78px;width:100%;z-index:1099;box-shadow:0 4px 15px rgba(0,0,0,0.08);padding:14px 30px;display:flex;gap:40px;justify-content:center;font-weight:600;}
+        .navbar a{color:var(--dark);text-decoration:none;transition:0.3s}
+        .navbar a:hover{color:var(--main);font-weight:800}
+
+        /* بانر نسائي أنيق */
+        .women-hero{
+            height:68vh;
+            background:linear-gradient(rgba(6,61,40,0.65),rgba(6,61,40,0.8)), url('https://images.unsplash.com/photo-1551028719-00167b16eac5?w=1600&q=80') center/cover no-repeat;
+            margin-top:78px;
+            display:flex;align-items:center;justify-content:center;text-align:center;color:white;
+        }
+        .women-hero h1{font-size:62px;font-weight:900;margin-bottom:15px;text-shadow:0 4px 20px rgba(0,0,0,0.6)}
+        .women-hero p{font-size:25px;max-width:900px;margin:auto;line-height:1.8}
+
+        /* شريط الفلترة (نفس الرجالي بالضبط) */
+        .filters-bar{background:white;padding:25px 30px;box-shadow:0 8px 30px rgba(0,0,0,0.1);position:sticky;top:78px;z-index:1000;}
+        .filters-container{max-width:1450px;margin:auto;display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:center;}
+        .filter-group select,.filter-group input{padding:14px 22px;border:2px solid #ddd;border-radius:50px;font-size:16px;min-width:210px;outline:none;transition:0.3s}
+        .filter-group select:focus,.filter-group input:focus{border-color:var(--feminine);box-shadow:0 0 0 4px rgba(233,30,99,0.2)}
+        .clear-filters{background:#e91e63;color:white;padding:14px 32px;border:none;border-radius:50px;cursor:pointer;font-weight:bold;transition:0.3s}
+        .clear-filters:hover{background:#c2185b;transform:translateY(-3px)}
+
+        /* شبكة المنتجات النسائية */
+        .women-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:34px;max-width:1450px;margin:60px auto;padding:0 20px;}
+        .women-product{background:white;border-radius:26px;overflow:hidden;box-shadow:0 12px 35px rgba(0,0,0,0.12);transition:all 0.4s;position:relative;cursor:pointer}
+        .women-product:hover{transform:translateY(-18px);box-shadow:0 30px 70px rgba(233,30,99,0.3)}
+        .women-product img{width:100%;height:270px;object-fit:cover}
+        .women-info{padding:22px;text-align:center}
+        .women-brand{color:var(--feminine);font-weight:bold;font-size:18px}
+        .women-name{font-size:20px;margin:12px 0;font-weight:700}
+        .women-price{color:var(--dark);font-size:26px;font-weight:900}
+        .add-to-cart{background:var(--feminine);color:white;border:none;padding:16px;width:100%;font-size:19px;cursor:pointer;border-radius:0 0 26px 26px;transition:0.3s;font-weight:bold}
+        .add-to-cart:hover{background:#c2185b}
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر والنافبار -->
+    <div class="topbar">
+        <div class="logo"><a href="index.html"><img src="logo.png" alt="تريندات"></a></div>
+        <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="ابحث في الموضة النسائية..."></div>
+        <div class="top-right">
+            <a href="login.html?seller=1" class="seller-btn">كن بائعًا</a>
+            <a href="login.html">تسجيل الدخول</a>
+            <a href="cart.html" class="cart"><i class="fas fa-shopping-cart fa-lg"></i><span id="cartCount">7</span></a>
+        </div>
+    </div>
+
+    <div class="navbar">
+      <a href="index.html">الرئيسية</a>
+    <a href="gifts.html">الهدايا</a>
+    <a href="featured.html">منتجات مميزة</a>
+        <a href="offers.html">العروض</a>
+        <a href="bestsellers.html">الأكثر مبيعًا</a>
+        <a href="explore.html"> استكشاف </a>
+        <a href="support.html">خدمة العملاء</a>
+    </div>
+
+    <!-- بانر نسائي فخم -->
+    <div class="women-hero">
+        <div>
+            <h1>أناقة لا تُقاوم</h1>
+            <p>أحدث صيحات الموضة العالمية للمرأة العصرية – فساتين، أحذية، مكياج، حقائب، وأكثر</p>
+        </div>
+    </div>
+
+    <!-- شريط الفلترة المتقدم -->
+    <div class="filters-bar">
+        <div class="filters-container">
+            <div class="filter-group">
+                <select><option>جميع الأقسام النسائية</option><option>فساتين</option><option>بلوزات</option><option>تنانير</option><option>أحذية</option><option>حقائب</option><option>مكياج</option><option>عطور</option></select>
+            </div>
+            <div class="filter-group">
+                <select><option>ترتيب حسب</option><option>الأحدث</option><option>الأكثر مبيعًا</option><option>الأقل سعرًا</option><option>الأعلى سعرًا</option></select>
+            </div>
+            <div class="filter-group">
+                <select><option>الماركة</option><option>Zara</option><option>H&M</option><option>Chanel</option><option>Gucci</option><option>Dior</option><option>Louis Vuitton</option></select>
+            </div>
+            <div class="filter-group">
+                <select><option>المقاس</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option></select>
+            </div>
+            <div class="filter-group">
+                <input type="number" placeholder="الحد الأدنى للسعر">
+            </div>
+            <div class="filter-group">
+                <input type="number" placeholder="الحد الأقصى للسعر">
+            </div>
+            <button class="clear-filters">مسح الفلاتر</button>
+        </div>
+    </div>
+
+    <!-- شبكة المنتجات النسائية -->
+    <div class="women-grid">
+        <!-- مثال منتج -->
+        <div class="women-product">
+            <img src="https://via.placeholder.com/400x400/e91e63/ffffff?text=فستان+سهرة" alt="فستان سهرة">
+            <div class="women-info">
+                <div class="women-brand">Zara</div>
+                <div class="women-name">فستان سهرة طويل أنيق</div>
+                <div class="women-price">785,000 ل.س</div>
+                <button class="add-to-cart">أضف للسلة</button>
+            </div>
+        </div>
+
+        <div class="women-product">
+            <img src="https://via.placeholder.com/400x400/9c27b0/ffffff?text=حقيبة+Gucci" alt="حقيبة قوتشي">
+            <div class="women-info">
+                <div class="women-brand">Gucci</div>
+                <div class="women-name">حقيبة قوتشي جلد أصلي</div>
+                <div class="women-price">5,800,000 ل.س</div>
+                <button class="add-to-cart">أضف للسلة</button>
+            </div>
+        </div>
+
+        <!-- أضف كل المنتجات النسائية اللي تبيها هنا -->
+    </div>
+
+    <script>
+        document.getElementById('cartCount').textContent = 0;
+    </script>
+</body>
+</html>

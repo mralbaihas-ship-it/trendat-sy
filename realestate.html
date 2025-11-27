@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عقارات للبيع والإيجار | تريندات - التسوق الأول في سوريا 2025</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="favicon.png" sizes="512x512" type="image/png">
+    <style>
+        :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc;--real:#27ae60}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light);color:var(--dark);overflow-x:hidden}
+
+        .topbar{background:var(--main);position:fixed;top:0;width:100%;z-index:1100;box-shadow:0 4px 20px rgba(6,61,40,0.3);display:flex;align-items:center;justify-content:space-between;padding:10px 30px;height:78px;}
+        .logo img{height:70px;transition:0.3s;cursor:pointer}
+        .logo img:hover{transform:scale(1.08)}
+        .search-box{position:relative;width:100%;max-width:500px}
+        .search-box input{width:100%;padding:14px 55px 14px 20px;border:none;border-radius:50px;font-size:17px;box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+        .search-box i{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--main);font-size:22px}
+        .top-right{display:flex;gap:18px;align-items:center;color:white;font-weight:600;}
+        .top-right a{color:white;text-decoration:none;padding:10px 18px;border-radius:50px;transition:0.3s}
+        .top-right a:hover{background:rgba(255,255,255,0.25)}
+        .seller-btn{background:rgba(255,255,255,0.25)!important;border:2px solid rgba(255,255,255,0.4);font-weight:bold;padding:12px 20px!important}
+        .seller-btn:hover{background:white!important;color:#063d28!important;transform:translateY(-3px)}
+        .cart{position:relative;cursor:pointer}
+        .cart span{position:absolute;top:-8px;left:-8px;background:red;color:white;border-radius:50%;width:22px;height:22px;font-size:12px;display:flex;align-items:center;justify-content:center;}
+
+        .navbar{background:white;position:fixed;top:78px;width:100%;z-index:1099;box-shadow:0 4px 15px rgba(0,0,0,0.08);padding:14px 30px;display:flex;gap:40px;justify-content:center;font-weight:600;}
+        .navbar a{color:var(--dark);text-decoration:none;transition:0.3s}
+        .navbar a:hover{color:var(--main);font-weight:800}
+
+        /* بانر عقاري فخم */
+        .real-hero{
+            height:78vh;
+            background:linear-gradient(rgba(0,0,0,0.78),rgba(0,0,0,0.88)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1600&q=80') center/cover;
+            margin-top:78px;
+            display:flex;align-items:center;justify-content:center;text-align:center;color:white;position:relative;
+        }
+        .real-hero::before{
+            content:'';position:absolute;inset:0;
+            background:linear-gradient(45deg,rgba(39,174,96,0.3),rgba(44,191,181,0.25));
+        }
+        .hero-content{position:relative;z-index:2}
+        .hero-content h1{font-size:70px;font-weight:900;margin-bottom:22px;text-shadow:0 6px 30px rgba(0,0,0,0.8)}
+        .hero-content p{font-size:28px;max-width:1000px;margin:auto;line-height:1.9}
+
+        /* فلترة العقارات المتقدمة */
+        .filters-bar{background:white;padding:32px;box-shadow:0 12px 45px rgba(0,0,0,0.12);position:sticky;top:78px;z-index:1000;}
+        .filters-container{max-width:1450px;margin:auto;display:flex;flex-wrap:wrap;gap:22px;align-items:center;justify-content:center;}
+        .filter-group select,.filter-group input{padding:16px 28px;border:2px solid #ddd;border-radius:50px;font-size:17px;min-width:240px;outline:none;transition:0.3s}
+        .filter-group select:focus,.filter-group input:focus{border-color:var(--real);box-shadow:0 0 0 6px rgba(39,174,96,0.2)}
+        .clear-filters{background:var(--real);color:white;padding:16px 45px;border:none;border-radius:50px;font-weight:bold;cursor:pointer;transition:0.4s}
+        .clear-filters:hover{background:#219653;transform:translateY(-5px)}
+
+        /* شبكة العقارات */
+        .real-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:45px;max-width:1450px;margin:90px auto;padding:0 20px;}
+        .property-card{background:white;border-radius:32px;overflow:hidden;box-shadow:0 18px 55px rgba(0,0,0,0.16);transition:all 0.5s;position:relative;cursor:pointer}
+        .property-card:hover{transform:translateY(-28px);box-shadow:0 45px 110px rgba(39,174,96,0.4)}
+        .prop-badge{position:absolute;top:20px;left:20px;background:var(--real);color:white;padding:10px 22px;border-radius:50px;font-weight:900;z-index:10}
+        .property-card img{width:100%;height:260px;object-fit:cover}
+        .prop-info{padding:30px;background:#fafafa;border-radius:0 0 32px 32px}
+        .prop-title{font-size:26px;font-weight:900;margin-bottom:12px;color:var(--dark)}
+        .prop-location{color:var(--real);font-weight:bold;font-size:19px;margin-bottom:15px}
+        .prop-details{display:flex;justify-content:center;gap:25px;flex-wrap:wrap;margin:18px 0;font-size:17px;color:#444}
+        .prop-details span i{color:var(--real);margin-left:10px}
+        .prop-price{font-size:34px;font-weight:900;color:var(--dark);margin:20px 0}
+        .price-type{font-size:16px;color:#27ae60;font-weight:bold}
+        .contact-btn{background:var(--real);color:white;border:none;padding:20px;width:100%;font-size:22px;font-weight:bold;cursor:pointer;border-radius:0 0 32px 32px;transition:0.3s}
+        .contact-btn:hover{background:#219653}
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر والنافبار -->
+    <div class="topbar">
+        <div class="logo"><a href="index.html"><img src="logo.png" alt="تريندات"></a></div>
+        <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="ابحث في دمشق، حلب، اللاذقية..."></div>
+        <div class="top-right">
+            <a href="login.html?seller=1" class="seller-btn">كن بائعًا</a>
+            <a href="login.html">تسجيل الدخول</a>
+            <a href="cart.html" class="cart"><i class="fas fa-shopping-cart fa-lg"></i><span id="cartCount">7</span></a>
+        </div>
+    </div>
+
+    <div class="navbar">
+         <a href="index.html">الرئيسية</a>
+    <a href="gifts.html">الهدايا</a>
+    <a href="featured.html">منتجات مميزة</a>
+        <a href="offers.html">العروض</a>
+        <a href="bestsellers.html">الأكثر مبيعًا</a>
+        <a href="explore.html"> استكشاف </a>
+        <a href="support.html">خدمة العملاء</a>
+    </div>
+
+    <!-- بانر العقارات -->
+    <div class="real-hero">
+        <div class="hero-content">
+            <h1>بيت أحلامك موجود هنا</h1>
+            <p>شقق • فلل • أراضي • محلات تجارية • مكاتب – للبيع والإيجار في كل المحافظات السورية بأفضل الأسعار وتقسيط مريح</p>
+        </div>
+    </div>
+
+    <!-- فلترة العقارات -->
+    <div class="filters-bar">
+        <div class="filters-container">
+            <div class="filter-group"><select><option>المحافظة</option><option>دمشق وريفها</option><option>حلب</option><option>اللاذقية</option><option>طرطوس</option><option>حمص</option></select></div>
+            <div class="filter-group"><select><option>نوع العقار</option><option>شقة</option><option>فيلا</option><option>أرض</option><option>محل تجاري</option><option>مكتب</option></select></div>
+            <div class="filter-group"><select><option>للبيع أو الإيجار</option><option>للبيع</option><option>للإيجار</option></select></div>
+            <div class="filter-group"><select><option>عدد الغرف</option><option>1+1</option><option>2+1</option><option>3+1</option><option>4+1</option><option>5+ فأكثر</option></select></div>
+            <div class="filter-group"><input type="number" placeholder="من سعر (ل.س)"></div>
+            <div class="filter-group"><input type="number" placeholder="إلى سعر (ل.س)"></div>
+            <button class="clear-filters">مسح الكل</button>
+        </div>
+    </div>
+
+    <!-- شبكة العقارات -->
+    <div class="real-grid">
+        <div class="property-card">
+            <div class="prop-badge">للبيع</div>
+            <img src="https://via.placeholder.com/800x500/27ae60/ffffff?text=شقة+المزة+3+غرف" alt="شقة المزة">
+            <div class="prop-info">
+                <div class="prop-title">شقة فاخرة 3 غرف + صالون – المزة</div>
+                <div class="prop-location">دمشق – المزة أوتوستراد</div>
+                <div class="prop-details">
+                    <span><i class="fas fa-bed"></i>3 غرف</span>
+                    <span><i class="fas fa-bath"></i>2 حمام</span>
+                    <span><i class="fas fa-ruler-combined"></i>185 م²</span>
+                    <span><i class="fas fa-car"></i>كراج</span>
+                </div>
+                <div class="prop-price">4,250,000,000 ل.س</div>
+                <div class="price-type">قابل للتفاوض + تقسيط 24 شهر</div>
+                <button class="contact-btn">تواصل مع المالك الآن</button>
+            </div>
+        </div>
+
+        <div class="property-card">
+            <div class="prop-badge">للإيجار</div>
+            <img src="https://via.placeholder.com/800x500/16a085/ffffff?text=فيلا+المالكي" alt="فيلا المالكي">
+            <div class="prop-info">
+                <div class="prop-title">فيلا مستقلة 5 غرف مع حديقة – المالكي</div>
+                <div class="prop-location">دمشق – المالكي</div>
+                <div class="prop-details">
+                    <span><i class="fas fa-bed"></i>5 غرف</span>
+                    <span><i class="fas fa-bath"></i>4 حمامات</span>
+                    <span><i class="fas fa-ruler-combined"></i>420 م²</span>
+                    <span><i class="fas fa-swimmer"></i>مسبح</span>
+                </div>
+                <div class="prop-price">85,000,000 ل.س / شهرياً</div>
+                <div class="price-type">عقد سنوي – تأمين شهرين</div>
+                <button class="contact-btn">تواصل مع المالك الآن</button>
+            </div>
+        </div>
+
+        <!-- أضف كل العقارات اللي تبيها بنفس الصيغة -->
+    </div>
+
+    <script>
+        document.getElementById('cartCount').textContent = 0;
+    </script>
+</body>
+</html>

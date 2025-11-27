@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كتب وقرطاسية وأدوات دراسية | تريندات سوريا 2025</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="favicon.png" sizes="512x512" type="image/png">
+    <style>
+        :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc;--book:#8e44ad}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light);color:var(--dark);overflow-x:hidden}
+
+        .topbar{background:var(--main);position:fixed;top:0;width:100%;z-index:1100;box-shadow:0 4px 20px rgba(6,61,40,0.3);display:flex;align-items:center;justify-content:space-between;padding:10px 30px;height:78px;}
+        .logo img{height:70px;transition:0.3s;cursor:pointer}
+        .logo img:hover{transform:scale(1.08)}
+        .search-box{position:relative;width:100%;max-width:500px}
+        .search-box input{width:100%;padding:14px 55px 14px 20px;border:none;border-radius:50px;font-size:17px;box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+        .search-box i{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--main);font-size:22px}
+        .top-right{display:flex;gap:18px;align-items:center;color:white;font-weight:600;}
+        .top-right a{color:white;text-decoration:none;padding:10px 18px;border-radius:50px;transition:0.3s}
+        .top-right a:hover{background:rgba(255,255,255,0.25)}
+        .seller-btn{background:rgba(255,255,255,0.25)!important;border:2px solid rgba(255,255,255,0.4);font-weight:bold;padding:12px 20px!important}
+        .seller-btn:hover{background:white!important;color:#063d28!important;transform:translateY(-3px)}
+        .cart{position:relative;cursor:pointer}
+        .cart span{position:absolute;top:-8px;left:-8px;background:red;color:white;border-radius:50%;width:22px;height:22px;font-size:12px;display:flex;align-items:center;justify-content:center;}
+
+        .navbar{background:white;position:fixed;top:78px;width:100%;z-index:1099;box-shadow:0 4px 15px rgba(0,0,0,0.08);padding:14px 30px;display:flex;gap:40px;justify-content:center;font-weight:600;}
+        .navbar a{color:var(--dark);text-decoration:none;transition:0.3s}
+        .navbar a:hover{color:var(--main);font-weight:800}
+
+        /* بانر كتب ملهم */
+        .books-hero{
+            height:70vh;
+            background:linear-gradient(rgba(142,68,173,0.88),rgba(142,68,173,0.95)), url('https://images.unsplash.com/photo-1495446815901-2c0e5b45874b?w=1600&q=80') center/cover;
+            margin-top:78px;
+            display:flex;align-items:center;justify-content:center;text-align:center;color:white;
+        }
+        .books-hero h1{font-size:68px;font-weight:900;margin-bottom:20px;text-shadow:0 5px 30px rgba(0,0,0,0.7)}
+        .books-hero p{font-size:27px;max-width:900px;margin:auto;line-height:1.9}
+
+        /* فلترة ذكية */
+        .filters-bar{background:white;padding:32px;box-shadow:0 0 12px 45px rgba(142,68,173,0.14);position:sticky;top:78px;z-index:1000;}
+        .filters-container{max-width:1450px;margin:auto;display:flex;flex-wrap:wrap;gap:22px;align-items:center;justify-content:center;}
+        .filter-group select{padding:16px 28px;border:3px solid #f3e5f5;border-radius:50px;font-size:17px;min-width:240px;background:#faf5ff;transition:0.3s}
+        .filter-group select:focus{border-color:var(--book);box-shadow:0 0 0 6px rgba(142,68,173,0.25)}
+        .clear-filters{background:var(--book);color:white;padding:16px 45px;border:none;border-radius:50px;font-weight:bold;cursor:pointer;transition:0.4s}
+        .clear-filters:hover{background:#732d91;transform:scale(1.05)}
+
+        /* شبكة الكتب والقرطاسية */
+        .books-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:42px;max-width:1450px;margin:90px auto;padding:0 20px;}
+        .book-card{background:white;border-radius:32px;overflow:hidden;box-shadow:0 18px 55px rgba(142,68,173,0.18);transition:all 0.5s;position:relative;cursor:pointer}
+        .book-card:hover{transform:translateY(-25px) scale(1.04);box-shadow:0 50px 120px rgba(142,68,173,0.4)}
+        .book-badge{position:absolute;top:18px;left:18px;background:var(--book);color:white;padding:8px 20px;border-radius:50px;font-weight:900;z-index:10}
+        .book-card img{width:100%;height:380px;object-fit:cover;background:#f5f0ff;padding:15px}
+        .book-info{padding:28px;text-align:center;background:linear-gradient(#fff,#faf5ff)}
+        .book-author{color:var(--book);font-weight:bold;font-size:18px;margin-bottom:8px}
+        .book-title{font-size:23px;font-weight:900;line-height:1.4;margin:12px 0;color:var(--dark)}
+        .book-price{font-size:30px;font-weight:900;color:var(--dark);margin:15px 0}
+        .add-book-btn{background:var(--book);color:white;border:none;padding:20px;width:100%;font-size:22px;font-weight:bold;cursor:pointer;border-radius:0 0 32px 32px;transition:0.3s}
+        .add-book-btn:hover{background:#732d91;transform:scale(1.04)}
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر والنافبار -->
+    <div class="topbar">
+        <div class="logo"><a href="index.html"><img src="logo.png" alt="تريندات"></a></div>
+        <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="روايات، كتب تنمية، قرطاسية، دفاتر..."></div>
+        <div class="top-right">
+            <a href="login.html?seller=1" class="seller-btn">كن بائعًا</a>
+            <a href="login.html">تسجيل الدخول</a>
+            <a href="cart.html" class="cart"><i class="fas fa-shopping-cart fa-lg"></i><span id="cartCount">7</span></a>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <a href="index.html">الرئيسية</a>
+    <a href="gifts.html">الهدايا</a>
+    <a href="featured.html">منتجات مميزة</a>
+        <a href="offers.html">العروض</a>
+        <a href="bestsellers.html">الأكثر مبيعًا</a>
+        <a href="explore.html"> استكشاف </a>
+        <a href="support.html">خدمة العملاء</a>
+    </div>
+
+    <!-- بانر الكتب -->
+    <div class="books-hero">
+        <div>
+            <h1>عالم الكتب والمعرفة</h1>
+            <p>أكبر مكتبة إلكترونية في سوريا – روايات • كتب تنمية بشرية • كتب دراسية • قرطاسية فاخرة • أدوات رسم وفنون</p>
+        </div>
+    </div>
+
+    <!-- فلترة ذكية -->
+    <div class="filters-bar">
+        <div class="filters-container">
+            <div class="filter-group"><select><option>نوع الكتاب</option><option>روايات عالمية</option><option>تنمية بشرية</option><option>كتب دينية</option><option>كتب أطفال</option><option>كتب دراسية</option><option>مجلات وكوميكس</option></select></div>
+            <div class="filter-group"><select><option>اللغة</option><option>عربي</option><option>إنجليزي</option><option>فرنسي</option></select></div>
+            <div class="filter-group"><select><option>الناشر</option><option>دار الآداب</option><option>المكتبة العصرية</option><option>كلمات</option><option>الأهلية</option></select></div>
+            <div class="filter-group"><select><option>القرطاسية</option><option>دفاتر وكراسات</option><option>أقلام وألوان</option><option>حقائب مدرسية</option><option>أدوات فنية</option></select></div>
+            <button class="clear-filters">مسح الفلاتر</button>
+        </div>
+    </div>
+
+    <!-- شبكة الكتب والقرطاسية -->
+    <div class="books-grid">
+        <div class="book-card">
+            <div class="book-badge">أكثر مبيعًا</div>
+            <img src="https://via.placeholder.com/600x800/8e44ad/ffffff?text=الخيميائي" alt="الخيميائي">
+            <div class="book-info">
+                <div class="book-author">باولو كويلو</div>
+                <div class="book-title">الخيميائي – الطبعة الجديدة 2025</div>
+                <div class="book-price">185,000 ل.س</div>
+                <button class="add-book-btn">أضف للسلة</button>
+            </div>
+        </div>
+
+        <div class="book-card">
+            <img src="https://via.placeholder.com/600x800/9b59b6/ffffff?text=دفتر+A4+فاخر" alt="دفتر">
+            <div class="book-info">
+                <div class="book-author">قرطاسية فاخرة</div>
+                <div class="book-title">دفتر A4 جلد فاخر 200 ورقة</div>
+                <div class="book-price">95,000 ل.س</div>
+                <button class="add-book-btn">أضف للسلة</button>
+            </div>
+        </div>
+
+        <!-- أضف كل الكتب والقرطاسية اللي تبيها -->
+    </div>
+
+    <script>
+        document.getElementById('cartCount').textContent = 0;
+    </script>
+</body>
+</html>

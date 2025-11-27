@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منتجات مميزة وعروض حصرية | تريندات – أفضل اختيارات 2025</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="favicon.png" sizes="512x512" type="image/png">
+    <style>
+        :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc;--feat:#f39c12}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light);color:var(--dark);overflow-x:hidden}
+
+        .topbar{background:var(--main);position:fixed;top:0;width:100%;z-index:1100;box-shadow:0 4px 20px rgba(6,61,40,0.3);display:flex;align-items:center;justify-content:space-between;padding:10px 30px;height:78px;}
+        .logo img{height:70px;transition:0.3s;cursor:pointer}
+        .logo img:hover{transform:scale(1.08)}
+        .search-box{position:relative;width:100%;max-width:500px}
+        .search-box input{width:100%;padding:14px 55px 14px 20px;border:none;border-radius:50px;font-size:17px;box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+        .search-box i{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--main);font-size:22px}
+        .top-right{display:flex;gap:18px;align-items:center;color:white;font-weight:600;}
+        .top-right a{color:white;text-decoration:none;padding:10px 18px;border-radius:50px;transition:0.3s}
+        .top-right a:hover{background:rgba(255,255,255,0.25)}
+        .seller-btn{background:rgba(255,255,255,0.25)!important;border:2px solid rgba(255,255,255,0.4);font-weight:bold;padding:12px 20px!important}
+        .seller-btn:hover{background:white!important;color:#063d28!important;transform:translateY(-3px)}
+        .cart{position:relative;cursor:pointer}
+        .cart span{position:absolute;top:-8px;left:-8px;background:red;color:white;border-radius:50%;width:22px;height:22px;font-size:12px;display:flex;align-items:center;justify-content:center;}
+
+        .navbar{background:white;position:fixed;top:78px;width:100%;z-index:1099;box-shadow:0 4px 15px rgba(0,0,0,0.08);padding:14px 30px;display:flex;gap:40px;justify-content:center;font-weight:600;}
+        .navbar a{color:var(--dark);text-decoration:none;transition:0.3s}
+        .navbar a:hover{color:var(--main);font-weight:800}
+
+        /* بانر المنتجات المميزة */
+        .feat-hero{
+            height:75vh;
+            background:linear-gradient(rgba(243,156,18,0.92),rgba(243,156,18,0.98)), url('https://images.unsplash.com/photo-1607083206968-13611e3d76db?w=1600&q=80') center/cover;
+            margin-top:78px;
+            display:flex;align-items:center;justify-content:center;text-align:center;color:white;position:relative;
+        }
+        .feat-hero::before{content:"★";position:absolute;font-size:300px;opacity:0.1;top:50%;left:50%;transform:translate(-50%,-50%)}
+        .feat-hero h1{font-size:80px;font-weight:900;margin-bottom:20px;text-shadow:0 8px 40px rgba(0,0,0,0.9)}
+        .feat-hero p{font-size:32px;max-width:1100px;margin:auto;line-height:1.9}
+
+        /* شريط الفلاتر */
+        .filters-bar{background:white;padding:32px;box-shadow:0 12px 50px rgba(243,156,18,0.18);position:sticky;top:78px;z-index:1000;}
+        .filters-container{max-width:1450px;margin:auto;display:flex;flex-wrap:wrap;gap:22px;align-items:center;justify-content:center;}
+        .filter-group select{padding:16px 32px;border:3px solid #fff3e0;border-radius:50px;font-size:17px;min-width:260px;background:#fff9e6;transition:0.3s}
+        .filter-group select:focus{border-color:var(--feat);box-shadow:0 0 0 6px rgba(243,156,18,0.25)}
+
+        /* شبكة المنتجات المميزة */
+        .feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:50px;max-width:1500px;margin:100px auto;padding:0 20px;}
+        .feat-card{background:linear-gradient(135deg,#fff,#fffbe6);border-radius:40px;overflow:hidden;box-shadow:0 25px 80px rgba(243,156,18,0.25);transition:all 0.6s;position:relative;cursor:pointer}
+        .feat-card:hover{transform:translateY(-35px) scale(1.03);box-shadow:0 70px 140px rgba(243,156,18,0.45)}
+        .feat-ribbon{position:absolute;top:0;right:0;background:var(--feat);color:white;padding:14px 32px;border-radius:0 0 0 40px;font-weight:900;font-size:18px;z-index:10;box-shadow:0 6px 20px rgba(0,0,0,0.3)}
+        .feat-card img{width:100%;height:360px;object-fit:contain;background:#fff9e6;padding:30px}
+        .feat-info{padding:35px;text-align:center}
+        .feat-brand{color:var(--feat);font-weight:bold;font-size:22px;margin-bottom:8px}
+        .feat-name{font-size:27px;font-weight:900;line-height:1.4;margin:16px 0;color:var(--dark)}
+        .old-price{text-decoration:line-through;color:#999;font-size:22px;margin:8px 0}
+        .feat-price{font-size:38px;font-weight:900;color:var(--feat);margin:20px 0}
+        .save-badge{background:#e67e22;color:white;padding:8px 20px;border-radius:30px;font-weight:bold;display:inline-block;margin:10px 0}
+        .add-feat-btn{background:var(--feat);color:white;border:none;padding:24px;width:100%;font-size:26px;font-weight:bold;cursor:pointer;border-radius:0 0 40px 40px;transition:0.4s}
+        .add-feat-btn:hover{background:#d35400;transform:scale(1.05)}
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر والنافبار (نفس الكود المعتاد) -->
+    <div class="topbar">
+        <div class="logo"><a href="index.html"><img src="logo.png" alt="تريندات"></a></div>
+        <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="ابحث في المنتجات المميزة..."></div>
+        <div class="top-right">
+            <a href="login.html?seller=1" class="seller-btn">كن بائعًا</a>
+            <a href="login.html">تسجيل الدخول</a>
+            <a href="cart.html" class="cart"><i class="fas fa-shopping-cart fa-lg"></i><span id="cartCount">7</span></a>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <a href="index.html">الرئيسية</a>
+    <a href="gifts.html">الهدايا</a>
+    <a href="featured.html">منتجات مميزة</a>
+        <a href="offers.html">العروض</a>
+        <a href="bestsellers.html">الأكثر مبيعًا</a>
+        <a href="explore.html"> استكشاف </a>
+        <a href="support.html">خدمة العملاء</a>
+    </div>
+
+    <!-- بانر المنتجات المميزة -->
+    <div class="feat-hero">
+        <div>
+            <h1>منتجات مميزة وعروض لا تُفوَّت</h1>
+            <p>اختيارات فريق تريندات • أعلى تقييم • أكثر مبيعًا • خصومات حصرية • شحن مجاني على أغلب القطع</p>
+        </div>
+    </div>
+
+    <!-- فلاتر -->
+    <div class="filters-bar">
+        <div class="filters-container">
+            <div class="filter-group"><select><option>جميع الأقسام</option><option>إلكترونيات</option><option>أزياء</option><option>ساعات وإكسسوارات</option><option>رياضة</option><option>أطفال</option><option>طاقة شمسية</option></select></div>
+            <div class="filter-group"><select><option>ترتيب حسب</option><option>الأكثر مبيعًا</option><option>الأعلى تقييمًا</option><option>الأحدث</option><option>الأقل سعرًا</option></select></div>
+        </div>
+    </div>
+
+    <!-- المنتجات المميزة -->
+    <div class="feat-grid">
+        <!-- مثال 1 -->
+        <div class="feat-card">
+            <div class="feat-ribbon">الأكثر مبيعًا</div>
+            <img src="https://via.placeholder.com/800x800/f39c12/ffffff?text=iPhone+16+Pro+Max" alt="آيفون 16 برو ماكس">
+            <div class="feat-info">
+                <div class="feat-brand">Apple</div>
+                <div class="feat-name">iPhone 16 Pro Max 1 تيرا</div>
+                <div class="old-price">48,500,000 ل.س</div>
+                <div class="feat-price">42,900,000 ل.س</div>
+                <div class="save-badge">وفر 5.6 مليون!</div>
+                <button class="add-feat-btn">أضف للسلة الآن</button>
+            </div>
+        </div>
+
+        <!-- مثال 2 -->
+        <div class="feat-card">
+            <div class="feat-ribbon">جديد 2025</div>
+            <img src="https://via.placeholder.com/800x800/e67e22/ffffff?text=Rolex+Submariner+2025" alt="رولكس">
+            <div class="feat-info">
+                <div class="feat-brand">Rolex</div>
+                <div class="feat-name">Submariner Date 41mm أخضر 2025</div>
+                <div class="feat-price">58,000,000 ل.س</div>
+                <div class="save-badge">ضمان دولي + صندوق فخم</div>
+                <button class="add-feat-btn">اشترِ الآن</button>
+            </div>
+        </div>
+
+        <!-- أضف قد ما تبي من المنتجات المميزة بنفس الصيغة -->
+    </div>
+
+    <script>
+        document.getElementById('cartCount').textContent = 0;
+    </script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صيدلية تريندات – أدوية ومكملات غذائية | سوريا 2025</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="favicon.png" sizes="512x512" type="image/png">
+    <style>
+        :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc;--pharma:#e74c3c}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light);color:var(--dark);overflow-x:hidden}
+
+        .topbar{background:var(--main);position:fixed;top:0;width:100%;z-index:1100;box-shadow:0 4px 20px rgba(6,61,40,0.3);display:flex;align-items:center;justify-content:space-between;padding:10px 30px;height:78px;}
+        .logo img{height:70px;transition:0.3s;cursor:pointer}
+        .logo img:hover{transform:scale(1.08)}
+        .search-box{position:relative;width:100%;max-width:500px}
+        .search-box input{width:100%;padding:14px 55px 14px 20px;border:none;border-radius:50px;font-size:17px;box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+        .search-box i{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--main);font-size:22px}
+        .top-right{display:flex;gap:18px;align-items:center;color:white;font-weight:600;}
+        .top-right a{color:white;text-decoration:none;padding:10px 18px;border-radius:50px;transition:0.3s}
+        .top-right a:hover{background:rgba(255,255,255,0.25)}
+        .seller-btn{background:rgba(255,255,255,0.25)!important;border:2px solid rgba(255,255,255,0.4);font-weight:bold;padding:12px 20px!important}
+        .seller-btn:hover{background:white!important;color:#063d28!important;transform:translateY(-3px)}
+        .cart{position:relative;cursor:pointer}
+        .cart span{position:absolute;top:-8px;left:-8px;background:red;color:white;border-radius:50%;width:22px;height:22px;font-size:12px;display:flex;align-items:center;justify-content:center;}
+
+        .navbar{background:white;position:fixed;top:78px;width:100%;z-index:1099;box-shadow:0 4px 15px rgba(0,0,0,0.08);padding:14px 30px;display:flex;gap:40px;justify-content:center;font-weight:600;}
+        .navbar a{color:var(--dark);text-decoration:none;transition:0.3s}
+        .navbar a:hover{color:var(--main);font-weight:800}
+
+        /* بانر الصيدلية */
+        .pharma-hero{
+            height:72vh;
+            background:linear-gradient(rgba(231,76,60,0.92),rgba(231,76,60,0.98)), url('https://images.unsplash.com/photo-1559839914-17aae19cecbf?w=1600&q=80') center/cover;
+            margin-top:78px;
+            display:flex;align-items:center;justify-content:center;text-align:center;color:white;
+        }
+        .pharma-hero h1{font-size:70px;font-weight:900;margin-bottom:20px;text-shadow:0 6px 30px rgba(0,0,0,0.8)}
+        .pharma-hero p{font-size:28px;max-width:950px;margin:auto;line-height:1.9}
+
+        /* فلترة الأدوية */
+        .filters-bar{background:white;padding:34px;box-shadow:0 12px 50px rgba(231,76,60,0.14);position:sticky;top:78px;z-index:1000;}
+        .filters-container{max-width:1450px;margin:auto;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:center;}
+        .filter-group select{padding:16px 30px;border:3px solid #ffeaea;border-radius:50px;font-size:17px;min-width:260px;background:#fff5f5;transition:0.3s}
+        .filter-group select:focus{border-color:var(--pharma);box-shadow:0 0 0 6px rgba(231,76,60,0.25)}
+        .clear-filters{background:var(--pharma);color:white;padding:16px 48px;border:none;border-radius:50px;font-weight:bold;cursor:pointer;transition:0.4s}
+        .clear-filters:hover{background:#c0392b;transform:scale(1.05)}
+
+        /* شبكة المنتجات */
+        .pharma-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:45px;max-width:1450px;margin:90px auto;padding:0 20px;}
+        .pharma-card{background:white;border-radius:36px;overflow:hidden;box-shadow:0 20px 65px rgba(231,76,60,0.18);transition:all 0.5s;position:relative;cursor:pointer}
+        .pharma-card:hover{transform:translateY(-28px);box-shadow:0 55px 130px rgba(231,76,60,0.4)}
+        .pharma-badge{position:absolute;top:20px;left:20px;background:var(--pharma);color:white;padding:10px 24px;border-radius:50px;font-weight:900;z-index:10}
+        .rx-needed{position:absolute;top:20px;right:20px;background:#e74c3c;color:white;padding:8px 16px;border-radius:50px;font-size:14px;font-weight:bold}
+        .pharma-card img{width:100%;height:300px;object-fit:contain;background:#fff5f5;padding:30px}
+        .pharma-info{padding:32px;text-align:center;background:linear-gradient(#fff,#fff5f5)}
+        .pharma-brand{color:var(--pharma);font-weight:bold;font-size:20px;margin-bottom:6px}
+        .pharma-name{font-size:24px;font-weight:900;line-height:1.4;margin:12px 0;color:var(--dark)}
+        .pharma-dose{font-size:16px;color:#e74c3c;margin:8px 0}
+        .pharma-price{font-size:34px;font-weight:900;color:var(--dark);margin:18px 0}
+        .add-pharma-btn{background:var(--pharma);color:white;border:none;padding:22px;width:100%;font-size:24px;font-weight:bold;cursor:pointer;border-radius:0 0 36px 36px;transition:0.3s}
+        .add-pharma-btn:hover{background:#c0392b;transform:scale(1.04)}
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر -->
+    <div class="topbar">
+        <div class="logo"><a href="index.html"><img src="logo.png" alt="تريندات"></a></div>
+        <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="بانادول، بروفين، فيتامينات، كريمات..."></div>
+        <div class="top-right">
+            <a href="login.html?seller=1" class="seller-btn">كن بائعًا</a>
+            <a href="login.html">تسجيل الدخول</a>
+            <a href="cart.html" class="cart"><i class="fas fa-shopping-cart fa-lg"></i><span id="cartCount">7</span></a>
+        </div>
+    </div>
+
+    <!-- النافبار -->
+    <div class="navbar">
+       <a href="index.html">الرئيسية</a>
+    <a href="gifts.html">الهدايا</a>
+    <a href="featured.html">منتجات مميزة</a>
+        <a href="offers.html">العروض</a>
+        <a href="bestsellers.html">الأكثر مبيعًا</a>
+        <a href="explore.html"> استكشاف </a>
+        <a href="support.html">خدمة العملاء</a>
+    </div>
+
+    <!-- بانر الصيدلية -->
+    <div class="pharma-hero">
+        <div>
+            <h1>صيدليتك أونلاين 24/7</h1>
+            <p>أدوية أصلية • مكملات غذائية • فيتامينات • منتجات عناية • أجهزة قياس الضغط والسكر – توصيل سري وآمن لباب البيت</p>
+        </div>
+    </div>
+
+    <!-- فلترة الأدوية والمنتجات -->
+    <div class="filters-bar">
+        <div class="filters-container">
+            <div class="filter-group"><select><option>القسم</option><option>مسكنات وخافض حرارة</option><option>مضادات حيوية</option><option>فيتامينات ومعادن</option><option>مكملات رياضية</option><option>عناية بالبشرة والشعر</option><option>أجهزة طبية منزلية</option><option>منتجات أطفال</option></select></div>
+            <div class="filter-group"><select><option>يحتاج وصفة طبية؟</option><option>لا يحتاج</option><option>يحتاج وصفة</option></select></div>
+            <div class="filter-group"><select><option>ترتيب حسب</option><option>الأكثر مبيعًا</option><option>الأقل سعرًا</option><option>الأحدث</option></select></div>
+            <button class="clear-filters">مسح الفلاتر</button>
+        </div>
+    </div>
+
+    <!-- شبكة المنتجات -->
+    <div class="pharma-grid">
+        <div class="pharma-card">
+            <div class="pharma-badge">الأكثر مبيعًا</div>
+            <img src="https://via.placeholder.com/600x600/e74c3c/ffffff?text=بانادول+إكسترا" alt="بانادول إكسترا">
+            <div class="pharma-info">
+                <div class="pharma-brand">Panadol</div>
+                <div class="pharma-name">بانادول إكسترا 500 ملغ</div>
+                <div class="pharma-dose">24 قرص – مسكن وخافض حرارة</div>
+                <div class="pharma-price">68,000 ل.س</div>
+                <button class="add-pharma-btn">أضف للسلة</button>
+            </div>
+        </div>
+
+        <div class="pharma-card">
+            <div class="rx-needed">وصفة طبية</div>
+            <img src="https://via.placeholder.com/600x600/c0392b/ffffff?text=أوغمنتين+1غ" alt="أوغمنتين">
+            <div class="pharma-info">
+                <div class="pharma-brand">Augmentin</div>
+                <div class="pharma-name">أوغمنتين 1 غرام</div>
+                <div class="pharma-dose">14 قرص – مضاد حيوي واسع الطيف</div>
+                <div class="pharma-price">285,000 ل.س</div>
+                <button class="add-pharma-btn">طلب مع وصفة</button>
+            </div>
+        </div>
+
+        <div class="pharma-card">
+            <div class="pharma-badge">عرض خاص</div>
+            <img src="https://via.placeholder.com/600x600/e74c3c/ffffff?text=سنتروم+للرجال" alt="سنتروم">
+            <div class="pharma-info">
+                <div class="pharma-brand">Centrum</div>
+                <div class="pharma-name">سنتروم للرجال 60 قرص</div>
+                <div class="pharma-dose">فيتامينات متعددة + معادن</div>
+                <div class="pharma-price">485,000 ل.س</div>
+                <button class="add-pharma-btn">أضف للسلة</button>
+            </div>
+        </div>
+
+        <!-- أضف كل المنتجات اللي تبيها بنفس الصيغة -->
+    </div>
+
+    <script>
+        document.getElementById('cartCount').textContent = 0;
+    </script>
+</body>
+</html>

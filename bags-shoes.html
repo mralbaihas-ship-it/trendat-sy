@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حقائب وأحذية فخمة | تريندات – أجمل إطلالة في سوريا 2025</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="favicon.png" sizes="512x512" type="image/png">
+    <style>
+        :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc;--bag:#9c27b0}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light);color:var(--dark);overflow-x:hidden}
+
+        .topbar{background:var(--main);position:fixed;top:0;width:100%;z-index:1100;box-shadow:0 4px 20px rgba(6,61,40,0.3);display:flex;align-items:center;justify-content:space-between;padding:10px 30px;height:78px;}
+        .logo img{height:70px;transition:0.3s;cursor:pointer}
+        .logo img:hover{transform:scale(1.08)}
+        .search-box{position:relative;width:100%;max-width:500px}
+        .search-box input{width:100%;padding:14px 55px 14px 20px;border:none;border-radius:50px;font-size:17px;box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+        .search-box i{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--main);font-size:22px}
+        .top-right{display:flex;gap:18px;align-items:center;color:white;font-weight:600;}
+        .top-right a{color:white;text-decoration:none;padding:10px 18px;border-radius:50px;transition:0.3s}
+        .top-right a:hover{background:rgba(255,255,255,0.25)}
+        .seller-btn{background:rgba(255,255,255,0.25)!important;border:2px solid rgba(255,255,255,0.4);font-weight:bold;padding:12px 20px!important}
+        .seller-btn:hover{background:white!important;color:#063d28!important;transform:translateY(-3px)}
+        .cart{position:relative;cursor:pointer}
+        .cart span{position:absolute;top:-8px;left:-8px;background:red;color:white;border-radius:50%;width:22px;height:22px;font-size:12px;display:flex;align-items:center;justify-content:center;}
+
+        .navbar{background:white;position:fixed;top:78px;width:100%;z-index:1099;box-shadow:0 4px 15px rgba(0,0,0,0.08);padding:14px 30px;display:flex;gap:40px;justify-content:center;font-weight:600;}
+        .navbar a{color:var(--dark);text-decoration:none;transition:0.3s}
+        .navbar a:hover{color:var(--main);font-weight:800}
+
+        /* بانر أنيق للحقائب والأحذية */
+        .bag-hero{
+            height:75vh;
+            background:linear-gradient(rgba(156,39,176,0.90),rgba(156,39,176,0.97)), url('https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=1600&q=80') center/cover;
+            margin-top:78px;
+            display:flex;align-items:center;justify-content:center;text-align:center;color:white;
+        }
+        .bag-hero h1{font-size:76px;font-weight:900;margin-bottom:22px;text-shadow:0 6px 35px rgba(0,0,0,0.9)}
+        .bag-hero p{font-size:30px;max-width:1100px;margin:auto;line-height:1.9}
+
+        /* فلاتر */
+        .filters-bar{background:white;padding:34px;box-shadow:0 12px 50px rgba(156,39,176,0.15);position:sticky;top:78px;z-index:1000;}
+        .filters-container{max-width:1450px;margin:auto;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:center;}
+        .filter-group select{padding:16px 32px;border:3px solid #f3e5f5;border-radius:50px;font-size:17px;min-width:260px;background:#faf3fb;transition:0.3s}
+        .filter-group select:focus{border-color:var(--bag);box-shadow:0 0 0 6px rgba(156,39,176,0.25)}
+        .clear-filters{background:var(--bag);color:white;padding:16px 50px;border:none;border-radius:50px;font-weight:bold;cursor:pointer;transition:0.4s}
+        .clear-filters:hover{background:#7b1fa2;transform:scale(1.05)}
+
+        /* شبكة المنتجات */
+        .bag-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:45px;max-width:1450px;margin:90px auto;padding:0 20px;}
+        .bag-card{background:white;border-radius:38px;overflow:hidden;box-shadow:0 20px 65px rgba(156,39,176,0.18);transition:all 0.5s;position:relative;cursor:pointer}
+        .bag-card:hover{transform:translateY(-30px);box-shadow:0 55px 130px rgba(156,39,176,0.45)}
+        .bag-badge{position:absolute;top:20px;left:20px;background:var(--bag);color:white;padding:10px 26px;border-radius:50px;font-weight:900;z-index:10}
+        .bag-card img{width:100%;height:340px;object-fit:contain;background:#faf3fb;padding:30px}
+        .bag-info{padding:32px;text-align:center;background:linear-gradient(#fff,#faf3fb)}
+        .bag-brand{color:var(--bag);font-weight:bold;font-size:20px;margin-bottom:8px}
+        .bag-name{font-size:25px;font-weight:900;line-height:1.4;margin:14px 0;color:var(--dark)}
+        .bag-size{color:#9c27b0;font-size:16px;margin:8px 0;font-weight:bold}
+        .bag-price{font-size:34px;font-weight:900;color:var(--dark);margin:18px 0}
+        .add-bag-btn{background:var(--bag);color:white;border:none;padding:22px;width:100%;font-size:24px;font-weight:bold;cursor:pointer;border-radius:0 0 38px 38px;transition:0.3s}
+        .add-bag-btn:hover{background:#7b1fa2;transform:scale(1.04)}
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر -->
+    <div class="topbar">
+        <div class="logo"><a href="index.html"><img src="logo.png" alt="تريندات"></a></div>
+        <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="لويس فيتون، نايك، قوتشي، شنط ظهر، كعب عالي..."></div>
+        <div class="top-right">
+            <a href="login.html?seller=1" class="seller-btn">كن بائعًا</a>
+            <a href="login.html">تسجيل الدخول</a>
+            <a href="cart.html" class="cart"><i class="fas fa-shopping-cart fa-lg"></i><span id="cartCount">7</span></a>
+        </div>
+    </div>
+
+    <!-- النافبار -->
+    <div class="navbar">
+        <a href="index.html">الرئيسية</a>
+    <a href="gifts.html">الهدايا</a>
+    <a href="featured.html">منتجات مميزة</a>
+        <a href="offers.html">العروض</a>
+        <a href="bestsellers.html">الأكثر مبيعًا</a>
+        <a href="explore.html"> استكشاف </a>
+        <a href="support.html">خدمة العملاء</a>
+    </div>
+
+    <!-- بانر الحقائب والأحذية -->
+    <div class="bag-hero">
+        <div>
+            <h1>أناقتك تكتمل هنا</h1>
+            <p>حقائب ماركات عالمية • أحذية رجالي ونسائي • شنط ظهر • كعب عالي • سنيكرز • جزمات • أحذية رسمية – أصلي 100% بأسعار منافسة</p>
+        </div>
+    </div>
+
+    <!-- فلاتر -->
+    <div class="filters-bar">
+        <div class="filters-container">
+            <div class="filter-group"><select><option>القسم</option><option>حقائب نسائية</option><option>حقائب رجالي</option><option>شنط ظهر</option><option>أحذية نسائية</option><option>أحذية رجالي</option><option>أحذية أطفال</option><option>أحذية رياضية</option></select></div>
+            <div class="filter-group"><select><option>الماركة</option><option>Louis Vuitton</option><option>Gucci</option><option>Prada</option><option>Nike</option><option>Adidas</option><option>Chanel</option><option>Zara</option></select></div>
+            <div class="filter-group"><select><option>المقاس</option><option>36</option><option>37</option><option>38</option><option>39</option><option>40</option><option>41-45</option></select></div>
+            <button class="clear-filters">مسح الفلاتر</button>
+        </div>
+    </div>
+
+    <!-- شبكة المنتجات -->
+    <div class="bag-grid">
+        <div class="bag-card">
+            <div class="bag-badge">تريند</div>
+            <img src="https://via.placeholder.com/800x800/9c27b0/ffffff?text=LV+Speedy+30" alt="لويس فيتون سبيدي">
+            <div class="bag-info">
+                <div class="bag-brand">Louis Vuitton</div>
+                <div class="bag-name">سبيدي باندوليير 30 مونوغرام</div>
+                <div class="bag-size">جلد أصلي – مقاس 30 سم</div>
+                <div class="bag-price">48,500,000 ل.س</div>
+                <button class="add-bag-btn">أضف للسلة</button>
+            </div>
+        </div>
+
+        <div class="bag-card">
+            <div class="bag-badge">جديد 2025</div>
+            <img src="https://via.placeholder.com/800x800/7b1fa2/ffffff?text=Gucci+Marmont" alt="قوتشي مارمونت">
+            <div class="bag-info">
+                <div class="bag-brand">Gucci</div>
+                <div class="bag-name">حقيبة مارمونت ميني جلد أسود</div>
+                <div class="bag-size">سلسلة ذهبية – أصلي</div>
+                <div class="bag-price">39,800,000 ل.س</div>
+                <button class="add-bag-btn">أضف للسلة</button>
+            </div>
+        </div>
+
+        <div class="bag-card">
+            <img src="https://via.placeholder.com/800x800/9c27b0/ffffff?text=Nike+Air+Force+1" alt="نايكي اير فورس">
+            <div class="bag-info">
+                <div class="bag-brand">Nike</div>
+                <div class="bag-name">حذاء Air Force 1 أبيض كلاسيك</div>
+                <div class="bag-size">مقاس 40-45 – أصلي</div>
+                <div class="bag-price">4,250,000 ل.س</div>
+                <button class="add-bag-btn">أضف للسلة</button>
+            </div>
+        </div>
+
+        <!-- أضف كل المنتجات اللي تبيها -->
+    </div>
+
+    <script>
+        document.getElementById('cartCount').textContent = 0;
+    </script>
+</body>
+</html>

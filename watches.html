@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ساعات وإكسسوارات فخمة | تريندات – الأناقة في سوريا 2025</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="favicon.png" sizes="512x512" type="image/png">
+    <style>
+        :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc;--watch:#c9a227}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light);color:var(--dark);overflow-x:hidden}
+
+        /* الهيدر والنافبار */
+        .topbar{background:var(--main);position:fixed;top:0;width:100%;z-index:1100;box-shadow:0 4px 20px rgba(6,61,40,0.3);display:flex;align-items:center;justify-content:space-between;padding:10px 30px;height:78px;}
+        .logo img{height:70px;transition:0.3s;cursor:pointer}
+        .logo img:hover{transform:scale(1.08)}
+        .search-box{position:relative;width:100%;max-width:500px}
+        .search-box input{width:100%;padding:14px 55px 14px 20px;border:none;border-radius:50px;font-size:17px;box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+        .search-box i{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--main);font-size:22px}
+        .top-right{display:flex;gap:18px;align-items:center;color:white;font-weight:600;}
+        .top-right a{color:white;text-decoration:none;padding:10px 18px;border-radius:50px;transition:0.3s}
+        .top-right a:hover{background:rgba(255,255,255,0.25)}
+        .seller-btn{background:rgba(255,255,255,0.25)!important;border:2px solid rgba(255,255,255,0.4);font-weight:bold;padding:12px 20px!important}
+        .seller-btn:hover{background:white!important;color:#063d28!important;transform:translateY(-3px)}
+        .cart{position:relative;cursor:pointer}
+        .cart span{position:absolute;top:-8px;left:-8px;background:red;color:white;border-radius:50%;width:22px;height:22px;font-size:12px;display:flex;align-items:center;justify-content:center;}
+
+        .navbar{background:white;position:fixed;top:78px;width:100%;z-index:1099;box-shadow:0 4px 15px rgba(0,0,0,0.08);padding:14px 30px;display:flex;gap:40px;justify-content:center;font-weight:600;}
+        .navbar a{color:var(--dark);text-decoration:none;transition:0.3s}
+        .navbar a:hover{color:var(--main);font-weight:800}
+
+        /* بانر فخم للساعات والإكسسوارات */
+        .watch-hero{
+            height:75vh;
+            background:linear-gradient(rgba(0,0,0,0.85),rgba(0,0,0,0.92)), url('https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=1600&q=80') center/cover no-repeat;
+            margin-top:78px;
+            display:flex;align-items:center;justify-content:center;text-align:center;color:white;position:relative;
+        }
+        .watch-hero::before{
+            content:'';position:absolute;inset:0;
+            background:linear-gradient(45deg,rgba(201,162,39,0.35),rgba(44,191,181,0.25));
+        }
+        .hero-content{position:relative;z-index:2}
+        .hero-content h1{font-size:72px;font-weight:900;margin-bottom:20px;text-shadow:0 6px 35px rgba(0,0,0,0.9)}
+        .hero-content p{font-size:28px;max-width:1000px;margin:auto;line-height:1.9}
+
+        /* شريط الفلاتر */
+        .filters-bar{background:white;padding:32px;box-shadow:0 12px 50px rgba(201,162,39,0.15);position:sticky;top:78px;z-index:1000;}
+        .filters-container{max-width:1450px;margin:auto;display:flex;flex-wrap:wrap;gap:22px;align-items:center;justify-content:center;}
+        .filter-group select{padding:16px 30px;border:3px solid #fff3cd;border-radius:50px;font-size:17px;min-width:250px;background:#fffdf5;transition:0.3s}
+        .filter-group select:focus{border-color:var(--watch);box-shadow:0 0 0 6px rgba(201,162,39,0.25)}
+        .clear-filters{background:var(--watch);color:#000;padding:16px 45px;border:none;border-radius:50px;font-weight:bold;cursor:pointer;transition:0.4s}
+        .clear-filters:hover{background:#b8860b;color:white;transform:scale(1.05)}
+
+        /* شبكة المنتجات */
+        .watch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:45px;max-width:1450px;margin:90px auto;padding:0 20px;}
+        .watch-card{background:white;border-radius:36px;overflow:hidden;box-shadow:0 20px 65px rgba(201,162,39,0.2);transition:all 0.5s;position:relative;cursor:pointer}
+        .watch-card:hover{transform:translateY(-30px);box-shadow:0 55px 130px rgba(201,162,39,0.45)}
+        .watch-badge{position:absolute;top:20px;left:20px;background:var(--watch);color:white;padding:10px 24px;border-radius:50px;font-weight:900;z-index:10}
+        .watch-card img{width:100%;height:360px;object-fit:contain;background:#fffdf5;padding:25px}
+        .watch-info{padding:32px;text-align:center;background:linear-gradient(#fff,#fffdf5)}
+        .watch-brand{color:var(--watch);font-weight:bold;font-size:20px;margin-bottom:8px}
+        .watch-name{font-size:25px;font-weight:900;line-height:1.4;margin:14px 0;color:var(--dark)}
+        .watch-price{font-size:34px;font-weight:900;color:var(--dark);margin:18px 0}
+        .add-watch-btn{background:var(--watch);color:#000;border:none;padding:22px;width:100%;font-size:24px;font-weight:bold;cursor:pointer;border-radius:0 0 36px 36px;transition:0.3s}
+        .add-watch-btn:hover{background:#b8860b;color:white;transform:scale(1.04)}
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر -->
+    <div class="topbar">
+        <div class="logo"><a href="index.html"><img src="logo.png" alt="تريندات"></a></div>
+        <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="رولكس، كاسيو، نظارات، أساور..."></div>
+        <div class="top-right">
+            <a href="login.html?seller=1" class="seller-btn">كن بائعًا</a>
+            <a href="login.html">تسجيل الدخول</a>
+            <a href="cart.html" class="cart"><i class="fas fa-shopping-cart fa-lg"></i><span id="cartCount">7</span></a>
+        </div>
+    </div>
+
+    <!-- النافبار -->
+    <div class="navbar">
+       <a href="index.html">الرئيسية</a>
+    <a href="gifts.html">الهدايا</a>
+    <a href="featured.html">منتجات مميزة</a>
+        <a href="offers.html">العروض</a>
+        <a href="bestsellers.html">الأكثر مبيعًا</a>
+        <a href="explore.html"> استكشاف </a>
+        <a href="support.html">خدمة العملاء</a>
+    </div>
+
+    <!-- البانر الرئيسي -->
+    <div class="watch-hero">
+        <div class="hero-content">
+            <h1>الأناقة تكتمل بالتفاصيل</h1>
+            <p>ساعات سويسرية أصلية • ساعات سمارت • نظارات شمسية ماركات • أساور • سلاسل • خواتم ذهب وفضة – كل اللي يخليك مميز</p>
+        </div>
+    </div>
+
+    <!-- فلترة -->
+    <div class="filters-bar">
+        <div class="filters-container">
+            <div class="filter-group">
+                <select><option>القسم</option><option>ساعات رجالي</option><option>ساعات نسائي</option><option>ساعات سمارت</option><option>نظارات شمسية</option><option>إكسسوارات ذهبية</option></select>
+            </div>
+            <div class="filter-group">
+                <select><option>الماركة</option><option>Rolex</option><option>Omega</option><option>Casio</option><option>Apple Watch</option><option>Ray-Ban</option><option>Cartier</option></select>
+            </div>
+            <div class="filter-group">
+                <select><option>ترتيب حسب</option><option>الأكثر مبيعًا</option><option>الأحدث</option><option>الأقل سعرًا</option></select>
+            </div>
+            <button class="clear-filters">مسح الفلاتر</button>
+        </div>
+    </div>
+
+    <!-- المنتجات -->
+    <div class="watch-grid">
+        <div class="watch-card">
+            <div class="watch-badge">أصلية 100%</div>
+            <img src="https://via.placeholder.com/600x600/c9a227/ffffff?text=Rolex+Daytona" alt="رولكس دايتونا">
+            <div class="watch-info">
+                <div class="watch-brand">Rolex</div>
+                <div class="watch-name">رولكس دايتونا ذهب أصلي 2025</div>
+                <div class="watch-price">42,500,000 ل.س</div>
+                <button class="add-watch-btn">أضف للسلة</button>
+            </div>
+        </div>
+
+        <div class="watch-card">
+            <img src="https://via.placeholder.com/600x600/b8860b0b/ffffff?text=Apple+Watch+Ultra+2" alt="آبل ووتش">
+            <div class="watch-info">
+                <div class="watch-brand">Apple</div>
+                <div class="watch-name">Apple Watch Ultra 2 تيتانيوم 49 مم</div>
+                <div class="watch-price">2,950,000 ل.س</div>
+                <button class="add-watch-btn">أضف للسلة</button>
+            </div>
+        </div>
+
+        <!-- أضف المزيد هنا -->
+    </div>
+
+    <script>
+        document.getElementById('cartCount').textContent = 0;
+    </script>
+</body>
+</html>

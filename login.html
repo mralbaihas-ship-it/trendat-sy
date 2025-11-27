@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول | تريندات</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="favicon.png" sizes="512x512" type="image/png">
+    <style>
+        :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:var(--light);font-family:'Segoe UI',Arial,sans-serif;color:var(--dark);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+        .login-wrapper{display:flex;flex-direction:column;align-items:center;gap:28px;width:100%;max-width:420px;}
+        .logo-box{background:var(--main);color:white;padding:50px 40px;text-align:center;border-radius:26px;box-shadow:0 15px 40px rgba(44,191,181,0.35);width:100%;}
+        .logo-box img{height:70px;margin-bottom:12px}
+        .logo-box h1{font-size:44px;font-weight:800}
+        .login-card{background:white;width:100%;border-radius:26px;box-shadow:0 15px 45px rgba(0,0,0,0.16);overflow:hidden;}
+        .tabs{display:flex;background:#f5f5f5;}
+        .tab{flex:1;padding:19px;font-size:17px;text-align:center;cursor:pointer;font-weight:600;transition:0.3s;}
+        .tab.active{background:var(--main);color:white;}
+        .form-content{padding:38px 38px 48px}
+        input{width:100%;padding:16px 18px;margin:12px 0;border:1px solid #ddd;border-radius:12px;font-size:16px;transition:0.3s;}
+        input:focus{border-color:var(--main);outline:none;box-shadow:0 0 0 4px rgba(44,191,181,0.15);}
+        button{background:var(--main);color:white;border:none;padding:17px;width:100%;border-radius:12px;font-size:18px;font-weight:600;cursor:pointer;transition:0.3s;margin:15px 0;}
+        button:hover{background:#1a9d92;transform:translateY(-2px)}
+        .social-login{margin-top:25px;display:flex;gap:12px;flex-direction:column;}
+        .social-btn{display:flex;align-items:center;justify-content:center;gap:12px;padding:14px;border-radius:12px;font-weight:600;font-size:16px;cursor:pointer;transition:0.3s;}
+        .fb{background:#1877f2;color:white;}
+        .google{background:#fff;color:#333;border:1px solid #ddd;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+        .social-btn:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,0.2);}
+        .or{text-align:center;margin:25px 0;color:#777;position:relative;}
+        .or::before{content:'';position:absolute;top:50%;left:0;width:100%;height:1px;background:#ddd;z-index:1;}
+        .or span{background:var(--light);padding:0 15px;z-index:2;}
+        .error{color:#e74c3c;font-size:14px;margin-top:8px;text-align:center}
+        .seller-box{background:#e6f7f5;border:2px solid var(--main);border-radius:16px;padding:24px;margin:22px 0;text-align:center;display:none;}
+        .seller-box i{font-size:46px;color:var(--main);margin-bottom:14px}
+        @media(max-width:480px){.logo-box h1{font-size:38px}.form-content{padding:30px 25px}}
+    </style>
+</head>
+<body>
+
+    <div class="login-wrapper">
+        <div class="logo-box">
+            <img src="logo.png" alt="تريندات">
+            <h1>تريندات</h1>
+        </div>
+
+        <div class="login-card">
+            <div class="tabs">
+                <div class="tab active" onclick="showLogin()">تسجيل الدخول</div>
+                <div class="tab" onclick="showRegister()">إنشاء حساب</div>
+            </div>
+
+            <div class="form-content">
+
+                <!-- تسجيل الدخول -->
+                <div id="loginForm">
+                    <input type="text" id="loginInput" placeholder="الإيميل أو رقم الجوال">
+                    <input type="password" id="loginPass" placeholder="كلمة المرور">
+                    <div class="error" id="loginError"></div>
+                    <button onclick="loginUser()">تسجيل الدخول</button>
+
+                    <div class="or"><span>أو</span></div>
+                    <div class="social-login">
+                        <div class="social-btn fb" onclick="loginWithFacebook()">
+                            <i class="fab fa-facebook-f"></i> متابعة بفيسبوك
+                        </div>
+                        <div class="social-btn google" onclick="loginWithGoogle()">
+                            <i class="fab fa-google"></i> متابعة بجوجل
+                        </div>
+                    </div>
+                </div>
+
+                <!-- إنشاء حساب -->
+                <div id="registerForm" style="display:none">
+                    <input type="text" id="regName" placeholder="الاسم الكامل">
+                    <input type="tel" id="regPhone" placeholder="رقم الجوال (مثال: 0944123456)">
+                    <input type="email" id="regEmail" placeholder="البريد الإلكتروني">
+                    <input type="password" id="regPass" placeholder="كلمة المرور (6 أحرف على الأقل)">
+                    <div class="error" id="regError"></div>
+                    <button onclick="registerUser()">إنشاء الحساب</button>
+
+                    <div class="or"><span>أو سجل بسهولة عبر</span></div>
+                    <div class="social-login">
+                        <div class="social-btn fb" onclick="loginWithFacebook()">
+                            <i class="fab fa-facebook-f"></i> متابعة بفيسبوك
+                        </div>
+                        <div class="social-btn google" onclick="loginWithGoogle()">
+                            <i class="fab fa-google"></i> متابعة بجوجل
+                        </div>
+                    </div>
+                </div>
+
+                <div class="seller-box" id="sellerBox">
+                    <i class="fas fa-store"></i>
+                    <p>مرحباً بك في برنامج بائعي تريندات!</p>
+                    <p>بعد التسجيل سيتواصل معك فريقنا خلال 24 ساعة</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+// === الربط التلقائي بقاعدة بيانات جوجل شيت الخاصة بك ===
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbxg8t5e8z9x8rF8e8d8f8g8h8j8k8l8z8x8c8v8b8n8m8/exec";
+
+function sendToGoogleSheet(userData) {
+    fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        cache: 'no-cache',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            date: new Date().toLocaleString('ar-SY'),
+            name: userData.name,
+            phone: userData.phone || '',
+            email: userData.email,
+            password: userData.password || userData.provider || 'غير محدد',
+            provider: userData.provider || 'إيميل',
+            address: userData.address || 'غير محدد',
+            notes: userData.notes || 'تسجيل جديد عبر الموقع'
+        })
+    });
+}
+
+// قاعدة البيانات المحلية (للتسجيل السريع)
+let users = JSON.parse(localStorage.getItem('trendatUsers')) || [];
+
+// دالة النجاح المشتركة
+function loginSuccess(user){
+    localStorage.setItem('trendatLoggedIn', 'true');
+    localStorage.setItem('trendatUserName', user.name);
+    localStorage.setItem('trendatFullName', user.name);
+    localStorage.setItem('trendatEmail', user.email);
+    localStorage.setItem('trendatPhone', user.phone || '');
+    localStorage.setItem('trendatPhoto', user.photo || 'user-avatar.jpg');
+
+    // إرسال البيانات لجوجل شيت
+    sendToGoogleSheet(user);
+
+    alert(`مرحباً بعودتك يا ${user.name}!`);
+    const redirect = localStorage.getItem('redirectAfterLogin') || 'index.html';
+    localStorage.removeItem('redirectAfterLogin');
+    location.href = redirect;
+}
+
+// تسجيل الدخول العادي
+function loginUser(){
+    const input = document.getElementById('loginInput').value.trim();
+    const pass = document.getElementById('loginPass').value;
+    const error = document.getElementById('loginError');
+
+    const user = users.find(u => 
+        (u.email === input || u.phone === input) && u.password === pass
+    );
+
+    if(user){
+        loginSuccess(user);
+    } else {
+        error.textContent = 'الإيميل أو الجوال أو كلمة المرور غير صحيحة';
+    }
+}
+
+// إنشاء حساب عادي
+function registerUser(){
+    const name = document.getElementById('regName').value.trim();
+    const phone = document.getElementById('regPhone').value.trim().replace(/\s/g,'');
+    const email = document.getElementById('regEmail').value.trim();
+    const pass = document.getElementById('regPass').value;
+    const error = document.getElementById('regError');
+
+    if(!name || !phone || !email || !pass){
+        error.textContent = 'جميع الحقول مطلوبة'; return;
+    }
+    if(!/^09[3-9]\d{7}$/.test(phone)){
+        error.textContent = 'رقم الجوال يجب أن يكون سوري صالح'; return;
+    }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+        error.textContent = 'البريد الإلكتروني غير صالح'; return;
+    }
+    if(pass.length < 6){
+        error.textContent = 'كلمة المرور يجب أن تكون 6 أحرف على الأقل'; return;
+    }
+    if(users.find(u => u.email === email || u.phone === phone)){
+        error.textContent = 'الإيميل أو الجوال مسجل مسبقاً'; return;
+    }
+
+    const newUser = { name, phone, email, password: pass, provider: 'إيميل' };
+    users.push(newUser);
+    localStorage.setItem('trendatUsers', JSON.stringify(users));
+
+    loginSuccess(newUser);
+}
+
+// تسجيل عبر فيسبوك
+function loginWithFacebook(){
+    const name = prompt("اسمك على فيسبوك:", "محمد أحمد");
+    const email = prompt("الإيميل المرتبط بحساب الفيسبوك:", "mohammed@facebook.com");
+    if(!name || !email) return;
+
+    let user = users.find(u => u.email === email);
+    if(!user){
+        user = { name, email, phone: '', provider: 'فيسبوك', photo: 'https://graph.facebook.com/v18.0/me/picture?type=large' };
+        users.push(user);
+        localStorage.setItem('trendatUsers', JSON.stringify(users));
+    }
+    loginSuccess(user);
+}
+
+// تسجيل عبر جوجل
+function loginWithGoogle(){
+    const name = prompt("اسمك على جوجل:", "أحمد علي");
+    const email = prompt("الجيميل الخاص بك:", "ahmed@gmail.com");
+    if(!name || !email) return;
+
+    let user = users.find(u => u.email === email);
+    if(!user){
+        user = { name, email, phone: '', provider: 'جوجل', photo: 'https://lh3.googleusercontent.com/a-/default-user' };
+        users.push(user);
+        localStorage.setItem('trendatUsers', JSON.stringify(users));
+    }
+    loginSuccess(user);
+}
+
+// تبديل التبويبات
+function showLogin(){
+    document.querySelectorAll('.tab')[0].classList.add('active');
+    document.querySelectorAll('.tab')[1].classList.remove('active');
+    document.getElementById('loginForm').style.display = 'block';
+    document.getElementById('registerForm').style.display = 'none';
+    document.getElementById('sellerBox').style.display = 'none';
+}
+function showRegister(){
+    document.querySelectorAll('.tab')[0].classList.remove('active');
+    document.querySelectorAll('.tab')[1].classList.add('active');
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('registerForm').style.display = 'block';
+    document.getElementById('sellerBox').style.display = location.search.includes('seller=1') ? 'block' : 'none';
+}
+
+// إظهار مربع البائع
+if(location.search.includes('seller=1')){
+    showRegister();
+    document.getElementById('sellerBox').style.display = 'block';
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ألعاب ومستلزمات أطفال | تريندات - التسوق الأول في سوريا 2025</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="favicon.png" sizes="512x512" type="image/png">
+    <style>
+        :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc;--toy:#ff5e78}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Arial,sans-serif;background:linear-gradient(135deg,#fff8f8,#f8fffe);color:var(--dark);overflow-x:hidden}
+
+        .topbar{background:var(--main);position:fixed;top:0;width:100%;z-index:1100;box-shadow:0 4px 20px rgba(6,61,40,0.3);display:flex;align-items:center;justify-content:space-between;padding:10px 30px;height:78px;}
+        .logo img{height:70px;transition:0.3s;cursor:pointer}
+        .logo img:hover{transform:scale(1.08)}
+        .search-box{position:relative;width:100%;max-width:500px}
+        .search-box input{width:100%;padding:14px 55px 14px 20px;border:none;border-radius:50px;font-size:17px;box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+        .search-box i{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--main);font-size:22px}
+        .top-right{display:flex;gap:18px;align-items:center;color:white;font-weight:600;}
+        .top-right a{color:white;text-decoration:none;padding:10px 18px;border-radius:50px;transition:0.3s}
+        .top-right a:hover{background:rgba(255,255,255,0.25)}
+        .seller-btn{background:rgba(255,255,255,0.25)!important;border:2px solid rgba(255,255,255,0.4);font-weight:bold;padding:12px 20px!important}
+        .seller-btn:hover{background:white!important;color:#063d28!important;transform:translateY(-3px)}
+        .cart{position:relative;cursor:pointer}
+        .cart span{position:absolute;top:-8px;left:-8px;background:red;color:white;border-radius:50%;width:22px;height:22px;font-size:12px;display:flex;align-items:center;justify-content:center;}
+
+        .navbar{background:white;position:fixed;top:78px;width:100%;z-index:1099;box-shadow:0 4px 15px rgba(0,0,0,0.08);padding:14px 30px;display:flex;gap:40px;justify-content:center;font-weight:600;}
+        .navbar a{color:var(--dark);text-decoration:none;transition:0.3s}
+        .navbar a:hover{color:var(--main);font-weight:800}
+
+        /* بانر مبهج للألعاب */
+        .toys-hero{
+            height:70vh;
+            background:linear-gradient(rgba(255,94,120,0.75),rgba(255,94,120,0.9)), url('https://images.unsplash.com/photo-1516627145499-ae68f3a0232b?w=1600&q=80') center/cover;
+            margin-top:78px;
+            display:flex;align-items:center;justify-content:center;text-align:center;color:white;position:relative;
+        }
+        .toys-hero h1{font-size:66px;font-weight:900;margin-bottom:20px;text-shadow:0 6px 25px rgba(0,0,0,0.5)}
+        .toys-hero p{font-size:28px;max-width:900px;margin:auto;line-height:1.8}
+
+        /* فلترة ممتعة */
+        .filters-bar{background:white;padding:30px;box-shadow:0 10px 40px rgba(255,94,120,0.15);position:sticky;top:78px;z-index:1000;}
+        .filters-container{max-width:1450px;margin:auto;display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:center;}
+        .filter-group select{padding:16px 28px;border:3px solid #ffe0e6;border-radius:50px;font-size:17px;min-width:240px;background:#fff5f7;transition:0.3s}
+        .filter-group select:focus{border-color:var(--toy);box-shadow:0 0 0 6px rgba(255,94,120,0.25)}
+        .clear-filters{background:var(--toy);color:white;padding:16px 40px;border:none;border-radius:50px;font-weight:bold;cursor:pointer;transition:0.4s}
+        .clear-filters:hover{background:#ff3b5c;transform:scale(1.05)}
+
+        /* شبكة الألعاب */
+        .toys-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:40px;max-width:1450px;margin:80px auto;padding:0 20px;}
+        .toy-card{background:white;border-radius:32px;overflow:hidden;box-shadow:0 16px 50px rgba(255,94,120,0.2);transition:all 0.5s;position:relative;cursor:pointer}
+        .toy-card:hover{transform:translateY(-25px) scale(1.03);box-shadow:0 40px 100px rgba(255,94,120,0.4)}
+        .toy-badge{position:absolute;top:15px;left:15px;background:var(--toy);color:white;padding:8px 18px;border-radius:50px;font-weight:900;font-size:14px;z-index:10}
+        .toy-card img{width:100%;height:300px;object-fit:cover}
+        .toy-info{padding:28px;text-align:center;background:linear-gradient(#fff,#fff5f7)}
+        .toy-name{font-size:24px;font-weight:900;margin:15px 0;color:var(--dark)}
+        .toy-age{color:var(--toy);font-weight:bold;font-size:18px;margin-bottom:10px}
+        .toy-price{font-size:32px;font-weight:900;color:var(--dark);margin:15px 0}
+        .add-toy-btn{background:var(--toy);color:white;border:none;padding:20px;width:100%;font-size:22px;font-weight:bold;cursor:pointer;border-radius:0 0 32px 32px;transition:0.3s}
+        .add-toy-btn:hover{background:#ff3b5c;transform:scale(1.05)}
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر والنافبار -->
+    <div class="topbar">
+        <div class="logo"><a href="index.html"><img src="logo.png" alt="تريندات"></a></div>
+        <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="ابحث عن لعبة، عربية، دمية..."></div>
+        <div class="top-right">
+            <a href="login.html?seller=1" class="seller-btn">كن بائعًا</a>
+            <a href="login.html">تسجيل الدخول</a>
+            <a href="cart.html" class="cart"><i class="fas fa-shopping-cart fa-lg"></i><span id="cartCount">7</span></a>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <a href="index.html">الرئيسية</a>
+    <a href="gifts.html">الهدايا</a>
+    <a href="featured.html">منتجات مميزة</a>
+        <a href="offers.html">العروض</a>
+        <a href="bestsellers.html">الأكثر مبيعًا</a>
+        <a href="explore.html"> استكشاف </a>
+        <a href="support.html">خدمة العملاء</a>
+    </div>
+
+    <!-- بانر الألعاب -->
+    <div class="toys-hero">
+        <div>
+            <h1>عالم الألعاب السعيد</h1>
+            <p>أكبر مجموعة ألعاب ومستلزمات أطفال في سوريا – للأولاد والبنات والكبار وبأسعار تجنن!</p>
+        </div>
+    </div>
+
+    <!-- فلترة ممتعة -->
+    <div class="filters-bar">
+        <div class="filters-container">
+            <div class="filter-group">
+                <select><option>الفئة العمرية</option><option>0-2 سنة</option><option><option>3-5 سنوات</option><option>6-8 سنوات</option><option>9-12 سنة</option></select>
+            </div>
+            <div class="filter-group">
+                <select><option>نوع اللعبة</option><option>دمى ودببة</option><option>عربيات وطيارات</option><option>ألعاب تعليمية</option><option>ليغو وبناء</option><option>ألعاب إلكترونية</option><option>دراجات وألعاب خارجية</option></select>
+            </div>
+            <div class="filter-group">
+                <select><option>للأولاد أو البنات</option><option>للأولاد</option><option>للبنات</option><option><option>للجنسين</option></select>
+            </div>
+            <button class="clear-filters">مسح الفلاتر</button>
+        </div>
+    </div>
+
+    <!-- شبكة الألعاب -->
+    <div class="toys-grid">
+        <div class="toy-card">
+            <div class="toy-badge">تريند</div>
+            <img src="https://via.placeholder.com/600x600/ff5e78/ffffff?text=دبدوب+عملاق" alt="دبدوب">
+            <div class="toy-info">
+                <div class="toy-age">من 1-5 سنوات</div>
+                <div class="toy-name">دبدوب تدی عملاق 120 سم</div>
+                <div class="toy-price">385,000 ل.س</div>
+                <button class="add-toy-btn">أضف للسلة</button>
+            </div>
+        </div>
+
+        <div class="toy-card">
+            <div class="toy-badge">جديد</div>
+            <img src="https://via.placeholder.com/600x600/3498db/ffffff?text=ليغو+1000+قطعة" alt="ليغو">
+            <div class="toy-info">
+                <div class="toy-age">من 6-12 سنة</div>
+                <div class="toy-name">طقم ليغو 1000 قطعة – مدينة كاملة</div>
+                <div class="toy-price">1,250,000 ل.س</div>
+                <button class="add-toy-btn">أضف للسلة</button>
+            </div>
+        </div>
+
+        <!-- أضف كل الألعاب اللي تبيها هنا بنفس الصيغة -->
+    </div>
+
+    <script>
+        document.getElementById('cartCount').textContent = 0;
+    </script>
+</body>
+</html>

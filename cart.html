@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عربة التسوق | تريندات</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:var(--light);font-family:'Segoe UI',Arial,sans-serif;color:var(--dark);padding-top:100px;min-height:100vh}
+
+        .topbar{background:var(--main);position:fixed;top:0;width:100%;z-index:1100;padding:15px 30px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(0,0,0,0.15);color:white}
+        .topbar .logo img{height:70px}
+        .topbar a{color:white;text-decoration:none;font-weight:600}
+
+        .container{max-width:1200px;margin:0 auto;padding:20px}
+
+        .empty-cart{text-align:center;padding:80px 20px}
+        .empty-cart i{font-size:90px;color:#ccc;margin-bottom:30px}
+        .empty-cart h2{font-size:32px;margin:20px 0;color:var(--dark)}
+        .empty-cart p{color:#666;font-size:18px;margin:15px 0}
+        .btn-big{background:var(--main);color:white;padding:18px 40px;border:none;border-radius:50px;font-size:20px;cursor:pointer;transition:0.3s;box-shadow:0 8px 25px rgba(44,191,181,0.4)}
+        .btn-big:hover{background:#1a9d92;transform:translateY(-3px)}
+
+        .cart-items{background:white;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,0.1);overflow:hidden;margin-bottom:40px;display:none}
+        .cart-header{background:var(--main);color:white;padding:20px;text-align:center;font-size:24px;font-weight:700}
+        .cart-list{padding:20px}
+        .cart-item{display:flex;align-items:center;gap:20px;padding:20px;border-bottom:1px solid #eee}
+        .cart-item img{width:100px;height:100px;object-fit:cover;border-radius:12px}
+        .item-info{flex:1}
+        .item-info h3{font-size:18px;font-weight:600}
+        .item-info .price{color:var(--main);font-size:22px;font-weight:bold;margin:8px 0}
+        .quantity{display:flex;align-items:center;gap:10px}
+        .quantity button{width:36px;height:36px;border:none;background:#eee;border-radius:8px;cursor:pointer;font-size:18px}
+        .remove-btn{color:red;cursor:pointer;font-size:20px}
+
+        .cart-summary{background:white;padding:25px;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,0.1);text-align:center}
+        .total-price{font-size:28px;font-weight:900;color:var(--dark);margin:20px 0}
+        .checkout-btn{background:var(--main);color:white;padding:18px;width:100%;border:none;border-radius:50px;font-size:22px;cursor:pointer;font-weight:700;transition:0.3s}
+        .checkout-btn:hover{background:#1a9d92}
+
+        .recommended{margin-top:60px}
+        .section-title{font-size:28px;text-align:center;margin-bottom:40px;font-weight:900}
+        .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:25px}
+        .rec-product{background:white;border-radius:18px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,0.1);transition:0.3s;cursor:pointer}
+        .rec-product:hover{transform:translateY(-10px);box-shadow:0 15px 40px rgba(44,191,181,0.3)}
+        .rec-product img{width:100%;height:180px;object-fit:cover}
+        .rec-info{padding:15px;text-align:center}
+        .rec-info .name{font-weight:600;margin:10px 0}
+        .rec-info .price{color:var(--main);font-size:20px;font-weight:bold}
+    </style>
+</head>
+<body>
+
+    <div class="topbar">
+        <div class="logo"><img src="logo.png" alt="تريندات"></div>
+        <div>
+            <a href="index.html">الرئيسية</a>
+            <a href="cart.html" style="margin-left:30px">عربة التسوق</a>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- عربة فاضية -->
+        <div class="empty-cart" id="emptyCart">
+            <i class="fas fa-shopping-cart"></i>
+            <h2>عربة التسوق فارغة</h2>
+            <p>لم تقم بإضافة أي منتجات بعد</p>
+            <button class="btn-big" onclick="location.href='index.html'">تصفح المزيد من المنتجات</button>
+        </div>
+
+        <!-- عربة فيها منتجات -->
+        <div class="cart-items" id="cartItems">
+            <div class="cart-header">عربة التسوق</div>
+            <div class="cart-list" id="cartList"></div>
+        </div>
+
+        <!-- ملخص الطلب -->
+        <div class="cart-summary" id="cartSummary" style="display:none">
+            <h3>ملخص الطلب</h3>
+            <div class="total-price" id="totalPrice">المجموع: 0 ل.س</div>
+            <button class="checkout-btn" onclick="proceedToCheckout()">إتمام الطلب</button>
+        </div>
+
+        <!-- المنتجات الموصى بها -->
+        <div class="recommended">
+            <h2 class="section-title">منتجات موصى بها لك</h2>
+            <div class="products-grid">
+                <div class="rec-product" onclick="addRecToCart(101, 'سماعات AirPods Pro', 2850000, 'p6.jpg')">
+                    <img src="p6.jpg" alt="سماعات"><div class="rec-info"><div class="name">سماعات AirPods Pro</div><div class="price">2,850,000 ل.س</div></div>
+                </div>
+                <div class="rec-product" onclick="addRecToCart(102, 'حقيبة يد جلدية فاخرة', 4200000, 'p8.jpg')">
+                    <img src="p8.jpg" alt="حقيبة"><div class="rec-info"><div class="name">حقيبة يد جلدية فاخرة</div><div class="price">4,200,000 ل.س</div></div>
+                </div>
+                <div class="rec-product" onclick="addRecToCart(103, 'جاكيت جينز شتوي', 890000, 'p5.jpg')">
+                    <img src="p5.jpg" alt="جاكيت"><div class="rec-info"><div class="name">جاكيت جينز شتوي</div><div class="price">890,000 ل.س</div></div>
+                </div>
+                <div class="rec-product" onclick="addRecToCart(104, 'آيفون 16 برو', 6800000, 'p1.jpg')">
+                    <img src="p1.jpg" alt="آيفون"><div class="rec-info"><div class="name">آيفون 16 برو</div><div class="price">6,800,000 ل.س</div></div>
+                </div>
+                <div class="rec-product" onclick="addRecToCart(105, 'ماك بوك برو M3', 9500000, 'p7.jpg')">
+                    <img src="p7.jpg" alt="لابتوب"><div class="rec-info"><div class="name">ماك بوك برو M3</div><div class="price">9,500,000 ل.س</div></div>
+                </div>
+                <div class="rec-product" onclick="addRecToCart(106, 'ساعة Galaxy Watch 6', 1950000, 'p3.jpg')">
+                    <img src="p3.jpg" alt="ساعة"><div class="rec-info"><div class="name">ساعة Galaxy Watch 6</div><div class="price">1,950,000 ل.س</div></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+<script>
+    let cart = JSON.parse(localStorage.getItem('trendatCart')) || [];
+
+    function updateCart(){
+        const empty = document.getElementById('emptyCart');
+        const items = document.getElementById('cartItems');
+        const summary = document.getElementById('cartSummary');
+        const list = document.getElementById('cartList');
+
+        if(cart.length === 0){
+            empty.style.display = 'block';
+            items.style.display = 'none';
+            summary.style.display = 'none';
+        } else {
+            empty.style.display = 'none';
+            items.style.display = 'block';
+            summary.style.display = 'block';
+            list.innerHTML = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price * item.qty;
+                list.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="item-info">
+                            <h3>${item.name}</h3>
+                            <div class="price">${(item.price * item.qty).toLocaleString()} ل.س</div>
+                        </div>
+                        <div class="quantity">
+                            <button onclick="changeQty(${index}, -1)">−</button>
+                            <span>${item.qty}</span>
+                            <button onclick="changeQty(${index}, 1)">+</button>
+                        </div>
+                        <i class="fas fa-trash remove-btn" onclick="removeFromCart(${index})"></i>
+                    </div>`;
+            });
+            document.getElementById('totalPrice').textContent = `المجموع: ${total.toLocaleString()} ل.س`;
+        }
+    }
+
+    function changeQty(index, change){
+        cart[index].qty += change;
+        if(cart[index].qty <= 0) removeFromCart(index);
+        else {
+            localStorage.setItem('trendatCart', JSON.stringify(cart));
+            updateCart();
+            if(typeof updateCartCount === 'function') updateCartCount();
+        }
+    }
+
+    function removeFromCart(index){
+        cart.splice(index, 1);
+        localStorage.setItem('trendatCart', JSON.stringify(cart));
+        updateCart();
+        if(typeof updateCartCount === 'function') updateCartCount();
+    }
+
+    // إضافة منتج من التوصيات
+    function addRecToCart(id, name, price, image){
+        if(localStorage.getItem('trendatLoggedIn') !== 'true'){
+            alert('يرجى تسجيل الدخول أولاً لإضافة المنتجات');
+            localStorage.setItem('redirectAfterLogin', location.href);
+            location.href = 'login.html';
+            return;
+        }
+        let existing = cart.find(item => item.id === id);
+        if(existing){
+            existing.qty += 1;
+            alert(`تمت إضافة منتج آخر من "${name}"`);
+        } else {
+            cart.push({id, name, price, image, qty:1});
+            alert(`تم إضافة "${name}" إلى السلة`);
+        }
+        localStorage.setItem('trendatCart', JSON.stringify(cart));
+        updateCart();
+        if(typeof updateCartCount === 'function') updateCartCount();
+    }
+
+    // إتمام الطلب الذكي
+    function proceedToCheckout(){
+        if(localStorage.getItem('trendatLoggedIn') === 'true'){
+            location.href = 'checkout.html';
+        } else {
+            alert('يرجى تسجيل الدخول لإكمال عملية الدفع');
+            localStorage.setItem('redirectAfterLogin', 'checkout.html');
+            location.href = 'login.html';
+        }
+    }
+
+    // تحديث العربة عند التحميل
+    updateCart();
+</script>
+
+</body>
+</html>

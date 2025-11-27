@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إتمام الطلب والدفع | تريندات</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:var(--light);font-family:'Segoe UI',Arial,sans-serif;color:var(--dark);padding-top:100px;min-height:100vh}
+
+        .topbar{background:var(--main);position:fixed;top:0;width:100%;z-index:1000;padding:15px 30px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(0,0,0,0.15);color:white}
+        .topbar .logo img{height:70px}
+        .topbar a{color:white;text-decoration:none;font-weight:600;margin:0 15px}
+
+        .container{max-width:1100px;margin:0 auto;padding:30px 20px}
+
+        .checkout-box{background:white;border-radius:24px;box-shadow:0 15px 50px rgba(0,0,0,0.12);overflow:hidden}
+        .checkout-header{background:var(--main);color:white;padding:25px;text-align:center;font-size:26px;font-weight:800}
+
+        .form-section{padding:40px 35px}
+        h3{font-size:22px;margin:25px 0 15px;color:var(--dark);font-weight:700}
+
+        input, select, textarea{
+            width:100%;padding:16px 18px;margin:12px 0;
+            border:1px solid #ddd;border-radius:12px;font-size:16px;transition:0.3s;
+        }
+        input:focus, select:focus, textarea:focus{
+            border-color:var(--main);outline:none;
+            box-shadow:0 0 0 4px rgba(44,191,181,0.15);
+        }
+
+        .payment-methods{margin:30px 0;display:flex;gap:20px;flex-wrap:wrap}
+        .pay-option{
+            flex:1;min-width:280px;background:#f9f9f9;padding:20px;border-radius:16px;
+            border:2px solid transparent;cursor:pointer;transition:0.3s;text-align:center
+        }
+        .pay-option.active{border-color:var(--main);background:#e6f7f5}
+        .pay-option i{font-size:44px;color:var(--main);margin-bottom:15px}
+
+        .order-summary{background:#f8fdfc;padding:25px;border-radius:16px;margin:30px 0}
+        .summary-item{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px dashed #ddd}
+        .total{font-size:24px;font-weight:900;color:var(--main);padding-top:15px}
+
+        .pay-btn{background:var(--main);color:white;border:none;padding:20px;
+            width:100%;border-radius:16px;font-size:22px;font-weight:700;
+            cursor:pointer;transition:0.3s;margin-top:20px}
+        .pay-btn:hover{background:#1a9d92;transform:translateY(-3px)}
+    </style>
+</head>
+<body>
+
+    <div class="topbar">
+        <div class="logo"><img src="logo.png" alt="تريندات"></div>
+        <div>
+            <a href="index.html">الرئيسية</a>
+            <a href="cart.html">العربة</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="checkout-box">
+            <div class="checkout-header">
+                <i class="fas fa-shield-alt"></i> إتمام الطلب بأمان
+            </div>
+
+            <div class="form-section">
+                <h3>معلومات التوصيل</h3>
+                <input type="text" placeholder="الاسم الكامل" required>
+                <input type="tel" placeholder="رقم الجوال (مثال: 0944xxxxxx)" required>
+                <select required>
+                    <option value="">اختر المحافظة</option>
+                    <option>دمشق</option><option>حلب</option><option>حمص</option><option>اللاذقية</option><option>طرطوس</option><option>حماة</option>
+                </select>
+                <textarea rows="3" placeholder="العنوان بالتفصيل (الحي - الشارع - أقرب معلم)"></textarea>
+
+                <h3>طريقة الدفع</h3>
+                <div class="payment-methods">
+                    <div class="pay-option active" onclick="selectPay('cash')">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <div>الدفع عند الاستلام (كاش)</div>
+                    </div>
+                    <div class="pay-option" onclick="selectPay('card')">
+                        <i class="fas fa-credit-card"></i>
+                        <div>بطاقة بنكية (قريبًا)</div>
+                    </div>
+                </div>
+
+                <div class="order-summary">
+                    <h3>ملخص الطلب</h3>
+                    <div class="summary-item"><span>المنتجات</span><span id="itemsTotal">0 ل.س</span></div>
+                    <div class="summary-item"><span>التوصيل</span><span>مجاني</span></div>
+                    <div class="summary-item total"><span>الإجمالي</span><span id="grandTotal">0 ل.س</span></div>
+                </div>
+
+                <button class="pay-btn" onclick="completePayment()">
+                    <i class="fas fa-lock"></i> تأكيد الطلب والدفع
+                </button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // جلب السلة
+    let cart = JSON.parse(localStorage.getItem('trendatCart')) || [];
+    const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+    document.getElementById('itemsTotal').textContent = total.toLocaleString() + ' ل.س';
+    document.getElementById('grandTotal').textContent = total.toLocaleString() + ' ل.س';
+
+    function selectPay(method){
+        document.querySelectorAll('.pay-option').forEach(p => p.classList.remove('active'));
+        event.target.closest('.pay-option').classList.add('active');
+    }
+
+    function completePayment(){
+        if(!document.querySelector('input[placeholder="الاسم الكامل"]').value ||
+           !document.querySelector('input[placeholder="رقم الجوال"]').value ||
+           !document.querySelector('textarea').value){
+            alert('يرجى تعبئة جميع الحقول');
+            return;
+        }
+
+        alert('تم إرسال الطلب بنجاح!\nسنتواصل معك خلال دقائق لتأكيد التفاصيل\nشكرًا لتسوقك من تريندات');
+        
+        // تفريغ السلة بعد الدفع
+        localStorage.removeItem('trendatCart');
+        setTimeout(() => location.href = 'index.html', 2000);
+    }
+
+    // إذا ما كان مسجل دخول → يرجع للتسجيل
+    if(localStorage.getItem('trendatLoggedIn') !== 'true'){
+        localStorage.setItem('redirectAfterLogin', 'checkout.html');
+        location.href = 'login.html';
+    }
+</script>
+
+</body>
+</html>

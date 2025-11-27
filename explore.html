@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استكشف منتجات جديدة ومميزة | تريندات – سوريا 2025</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="favicon.png" sizes="512x512" type="image/png">
+    <style>
+        :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light);color:var(--dark);overflow-x:hidden}
+
+        .topbar{background:var(--main);position:fixed;top:0;width:100%;z-index:1100;box-shadow:0 4px 20px rgba(6,61,40,0.3);display:flex;align-items:center;justify-content:space-between;padding:10px 30px;height:78px;}
+        .logo img{height:70px;transition:0.3s;cursor:pointer}
+        .logo img:hover{transform:scale(1.08)}
+        .search-box{position:relative;width:100%;max-width:500px}
+        .search-box input{width:100%;padding:14px 55px 14px 20px;border:none;border-radius:50px;font-size:17px;box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+        .search-box i{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--main);font-size:22px}
+        .top-right{display:flex;gap:18px;align-items:center;color:white;font-weight:600;}
+        .top-right a{color:white;text-decoration:none;padding:10px 18px;border-radius:50px;transition:0.3s}
+        .top-right a:hover{background:rgba(255,255,255,0.25)}
+        .seller-btn{background:rgba(255,255,255,0.25)!important;border:2px solid rgba(255,255,255,0.4);font-weight:bold;padding:12px 20px!important}
+        .seller-btn:hover{background:white!important;color:#063d28!important;transform:translateY(-3px)}
+        .cart{position:relative;cursor:pointer}
+        .cart span{position:absolute;top:-8px;left:-8px;background:red;color:white;border-radius:50%;width:22px;height:22px;font-size:12px;display:flex;align-items:center;justify-content:center;}
+
+        .navbar{background:white;position:fixed;top:78px;width:100%;z-index:1099;box-shadow:0 4px 15px rgba(0,0,0,0.08);padding:14px 30px;display:flex;gap:40px;justify-content:center;font-weight:600;}
+        .navbar a{color:var(--dark);text-decoration:none;transition:0.3s}
+        .navbar a:hover{color:var(--dark);text-decoration:none;transition:0.3s}
+        .navbar a:hover{color:var(--main);font-weight:800}
+
+        .explore-hero{height:65vh;background:linear-gradient(rgba(44,191,181,0.93),rgba(44,191,181,0.98)), url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600&q=80') center/cover;margin-top:78px;display:flex;align-items:center;justify-content:center;text-align:center;color:white;}
+        .explore-hero h1{font-size:80px;font-weight:900;margin-bottom:20px;text-shadow:0 8px 40px rgba(0,0,0,0.8)}
+        .explore-hero p{font-size:30px;max-width:1000px;margin:auto;line-height:1.9}
+
+        /* شريط الفلاتر العلوي */
+        .filters-bar{background:white;padding:30px 0;box-shadow:0 10px 40px rgba(44,191,181,0.18);position:sticky;top:78px;z-index:1000;}
+        .filters-container{max-width:1500px;margin:auto;display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:center;padding:0 20px;}
+        .search-filter input{width:100%;max-width:600px;padding:18px 60px 18px 25px;border:3px solid #e0f7f5;border-radius:50px;font-size:19px;box-shadow:0 8px 30px rgba(0,0,0,0.1);transition:0.3s}
+        .search-filter input:focus{border-color:var(--main);box-shadow:0 0 0 8px rgba(44,191,181,0.25);outline:none}
+        .search-filter{position:relative}
+        .search-filter i{position:absolute;left:25px;top:50%;transform:translateY(-50%);color:var(--main);font-size:24px}
+        .cat-filter select{padding:18px 35px;border:3px solid #e0f7f5;border-radius:50px;font-size:18px;background:white;min-width:280px;box-shadow:0 8px 30px rgba(0,0,0,0.1);transition:0.3s}
+        .cat-filter select:focus{border-color:var(--main);box-shadow:0 0 0 8px rgba(44,191,181,0.25)}
+
+        /* الشبكة + القائمة الجانبية */
+        .main-content{max-width:1600px;margin:80px auto;padding:0 30px;display:grid;grid-template-columns:280px 1fr;gap:50px;align-items:start}
+        .sidebar{background:white;border-radius:30px;padding:35px;box-shadow:0 15px 50px rgba(44,191,181,0.2);position:sticky;top:160px;height:fit-content}
+        .sidebar h3{font-size:24px;margin-bottom:25px;color:var(--main);font-weight:900}
+        .sidebar label{display:block;margin:18px 0;font-size:17px;cursor:pointer;transition:0.3s}
+        .sidebar input[type="checkbox"]{accent-color:var(--main);transform:scale(1.4);margin-left:12px}
+
+        .explore-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:50px;}
+        .explore-card{background:white;border-radius:44px;overflow:hidden;box-shadow:0 28px 90px rgba(44,191,181,0.26);transition:all 0.6s;cursor:pointer;position:relative}
+        .explore-card:hover{transform:translateY(-38px) scale(1.04);box-shadow:0 80px 160px rgba(44,191,181,0.48)}
+        .cat-tag{position:absolute;top:22px;left:22px;background:var(--main);color:white;padding:12px 32px;border-radius:32px;font-weight:900;font-size:16px;z-index:10}
+        .explore-card img{width:100%;height:380px;object-fit:contain;background:#f0fdfc;padding:40px;transition:0.4s}
+        .explore-card:hover img{transform:scale(1.12)}
+        .explore-info{padding:38px;text-align:center;background:linear-gradient(#fff,#f0fdfc)}
+        .explore-brand{color:var(--main);font-weight:bold;font-size:23px;margin-bottom:10px}
+        .explore-name{font-size:29px;font-weight:900;line-height:1.4;margin:18px 0;color:var(--dark)}
+        .explore-price{font-size:42px;font-weight:900;color:var(--dark);margin:22px 0}
+        .explore-btn{background:var(--main);color:white;border:none;padding:26px;width:100%;font-size:27px;font-weight:bold;cursor:pointer;border-radius:0 0 44px 44px;transition:0.4s}
+        .explore-btn:hover{background:#063d28;transform:scale(1.06)}
+
+        .load-more{text-align:center;margin:100px auto 60px}
+        .load-more button{background:linear-gradient(45deg,#2cbfb5,#063d28);color:white;padding:26px 100px;border:none;border-radius:70px;font-size:30px;font-weight:900;cursor:pointer;box-shadow:0 25px 60px rgba(44,191,181,0.55);transition:0.6s;display:inline-flex;align-items:center;gap:25px}
+        .load-more button:hover{transform:translateY(-12px) scale(1.1);box-shadow:0 40px 80px rgba(44,191,181,0.7)}
+
+        @media (max-width:992px){
+            .main-content{grid-template-columns:1fr;padding:0 20px}
+            .sidebar{position:static;margin-bottom:40px;border-radius:25px}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر والنافبار (نفس الكود السابق) -->
+    <div class="topbar">
+        <div class="logo"><a href="index.html"><img src="logo.png" alt="تريندات"></a></div>
+        <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="ابحث عن أي شيء..."></div>
+        <div class="top-right">
+            <a href="login.html?seller=1" class="seller-btn">كن بائعًا</a>
+            <a href="login.html">تسجيل الدخول</a>
+            <a href="cart.html" class="cart"><i class="fas fa-shopping-cart fa-lg"></i><span id="cartCount">7</span></a>
+        </div>
+    </div>
+
+    <div class="navbar">
+       <a href="index.html">الرئيسية</a>
+    <a href="gifts.html">الهدايا</a>
+    <a href="featured.html">منتجات مميزة</a>
+        <a href="offers.html">العروض</a>
+        <a href="bestsellers.html">الأكثر مبيعًا</a>
+        <a href="explore.html"> استكشاف </a>
+        <a href="support.html">خدمة العملاء</a>
+    </div>
+
+    <div class="explore-hero">
+        <div>
+            <h1>استكشف كل جديد في تريندات</h1>
+            <p>أكثر من 500 منتج يتم تحديثه يوميًا • ابحث • اختر القسم • اكتشف!</p>
+        </div>
+    </div>
+
+    <!-- شريط الفلاتر العلوي -->
+    <div class="filters-bar">
+        <div class="filters-container">
+            <div class="search-filter">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="ابحث بالاسم أو الماركة..." autocomplete="off">
+            </div>
+            <div class="cat-filter">
+                <select id="categoryFilter">
+                    <option value="">جميع الأقسام</option>
+                    <option value="موبايلات">موبايلات وإكسسوارات</option>
+                    <option value="أزياء">أزياء وملابس</option>
+                    <option value="عطور">عطور ومكياج</option>
+                    <option value="رياضة">رياضة وجيم</option>
+                    <option value="طاقة شمسية">طاقة شمسية</option>
+                    <option value="ألعاب">ألعاب وجيمنج</option>
+                    <option value="ساعات">ساعات فخمة</option>
+                    <option value="منزل">أجهزة وأدوات منزلية</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- المحتوى الرئيسي: فلتر جانبي + الشبكة -->
+    <div class="main-content">
+        <!-- الفلتر الجانبي -->
+        <div class="sidebar">
+            <h3>تصفية حسب القسم</h3>
+            <label><input type="checkbox" value="موبايلات" checked> موبايلات وإكسسوارات</label>
+            <label><input type="checkbox" value="أزياء" checked> أزياء وأحذية</label>
+            <label><input type="checkbox" value="عطور" checked> عطور ومكياج</label>
+            <label><input type="checkbox" value="رياضة" checked> رياضة وجيم</label>
+            <label><input type="checkbox" value="طاقة شمسية" checked> طاقة شمسية</label>
+            <label><input type="checkbox" value="ألعاب" checked> ألعاب وجيمنج</label>
+            <label><input type="checkbox" value="ساعات" checked> ساعات فاخرة</label>
+            <label><input type="checkbox" value="منزل" checked> أجهزة منزلية</label>
+        </div>
+
+        <!-- الشبكة -->
+        <div class="explore-grid" id="exploreGrid"></div>
+    </div>
+
+    <div class="load-more">
+        <button id="loadMoreBtn">
+            <i class="fas fa-sparkles fa-beat"></i>
+            استكشف المزيد من المنتجات
+            <i class="fas fa-arrow-left"></i>
+        </button>
+    </div>
+
+    <script>
+        document.getElementById('cartCount').textContent = 7;
+
+        const allProducts = [
+            {img:"https://via.placeholder.com/800x800/2cbfb5/ffffff?text=iPhone+16",name:"آيفون 16 برو ماكس",brand:"Apple",price:"48,900,000 ل.س",cat:"موبايلات"},
+            {img:"https://via.placeholder.com/800x800/ff6b6b/ffffff?text=فستان+أحمر",name:"فستان سهرة أحمر فاخر",brand:"Elie Saab",price:"24,500,000 ل.س",cat:"أزياء"},
+            {img:"https://via.placeholder.com/800x800/9c27b0/ffffff?text=Creed+Aventus",name:"عطر كريد أفينتوس 100مل",brand:"Creed",price:"10,800,000 ل.س",cat:"عطور"},
+            {img:"https://via.placeholder.com/800x800/d35400/ffffff?text=مشاية+رياضية",name:"مشاية كهربائية 180كغ",brand:"Life Fitness",price:"22,000,000 ل.س",cat:"رياضة"},
+            {img:"https://via.placeholder.com/800x800/27ae60/ffffff?text=لوح+شمسي",name:"لوح شمسي 550 واط",brand:"LONGI",price:"2,950,000 ل.س",cat:"طاقة شمسية"},
+            {img:"https://via.placeholder.com/800x800/f1c40f/ffffff?text=PS5+Pro",name:"بلايستيشن 5 برو 2025",brand:"Sony",price:"26,800,000 ل.س",cat:"ألعاب"},
+            {img:"https://via.placeholder.com/800x800/8e44ad/ffffff?text=Rolex+GMT",name:"رولكس جي إم تي بيبسي",brand:"Rolex",price:"68,000,000 ل.س",cat:"ساعات"},
+            {img:"https://via.placeholder.com/800x800/e74c3c/ffffff?text=روبوت+مكنسة",name:"روبوت مكنسة شاومي X20",brand:"Xiaomi",price:"11,500,000 ل.س",cat:"منزل"},
+            // أضف قد ما تحب...
+        ];
+
+        let visible = 12;
+        const step = 12;
+        let filteredProducts = [...allProducts];
+
+        function render() {
+            const grid = document.getElementById("exploreGrid");
+            const toShow = filteredProducts.slice(0, visible);
+            
+            if (toShow.length === 0) {
+                grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;font-size:28px;color:#999;margin:100px">لا توجد منتجات تطابق بحثك حاليًا</p>`;
+                return;
+            }
+
+            grid.innerHTML = toShow.map(p => `
+                <div class="explore-card">
+                    <div class="cat-tag">${p.cat}</div>
+                    <img src="${p.img}" alt="${p.name}">
+                    <div class="explore-info">
+                        <div class="explore-brand">${p.brand}</div>
+                        <div class="explore-name">${p.name}</div>
+                        <div class="explore-price">${p.price}</div>
+                        <button class="explore-btn">اكتشف الآن</button>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        // فلترة حسب البحث والقسم والـ checkbox
+        function applyFilters() {
+            const search = document.getElementById("searchInput").value.toLowerCase().trim();
+            const selectedCat = document.getElementById("categoryFilter").value;
+            const checkedCats = Array.from(document.querySelectorAll('.sidebar input[type="checkbox"]:checked')).map(cb => cb.value);
+
+            filteredProducts = allProducts.filter(p => {
+                const matchesSearch = p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search);
+                const matchesCat = selectedCat === "" || p.cat === selectedCat;
+                const matchesCheckbox = checkedCats.length === 0 || checkedCats.includes(p.cat);
+                return matchesSearch && matchesCat && matchesCheckbox;
+            });
+
+            visible = 12; // إعادة تعيين العدد عند كل فلترة
+            render();
+            document.querySelector(".load-more").style.display = filteredProducts.length > visible ? "block" : "none";
+        }
+
+        // الأحداث
+        document.getElementById("searchInput").addEventListener("input", applyFilters);
+        document.getElementById("categoryFilter").addEventListener("change", applyFilters);
+        document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => cb.addEventListener("change", applyFilters));
+
+        // زر استكشف المزيد
+        document.getElementById("loadMoreBtn").addEventListener("click", () => {
+            visible += step;
+            render();
+            if (visible >= filteredProducts.length) {
+                document.querySelector(".load-more").style.display = "none";
+            }
+        });
+
+        // التحميل الأولي
+        document.addEventListener("DOMContentLoaded", () => {
+            render();
+        });
+    </script>
+</body>
+</html>

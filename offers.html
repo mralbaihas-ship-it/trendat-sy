@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>العروض والتنزيلات | تريندات – خصومات تصل لـ 70% – سوريا 2025</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="favicon.png" sizes="512x512" type="image/png">
+    <style>
+        :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc;--offer:#e74c3c}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light);color:var(--dark);overflow-x:hidden}
+
+        .topbar{background:var(--main);position:fixed;top:0;width:100%;z-index:1100;box-shadow:0 4px 20px rgba(6,61,40,0.3);display:flex;align-items:center;justify-content:space-between;padding:10px 30px;height:78px;}
+        .logo img{height:70px;transition:0.3s;cursor:pointer}
+        .logo img:hover{transform:scale(1.08)}
+        .search-box{position:relative;width:100%;max-width:500px}
+        .search-box input{width:100%;padding:14px 55px 14px 20px;border:none;border-radius:50px;font-size:17px;box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+        .search-box i{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--main);font-size:22px}
+        .top-right{display:flex;gap:18px;align-items:center;color:white;font-weight:600;}
+        .top-right a{color:white;text-decoration:none;padding:10px 18px;border-radius:50px;transition:0.3s}
+        .top-right a:hover{background:rgba(255,255,255,0.25)}
+        .seller-btn{background:rgba(255,255,255,0.25)!important;border:2px solid rgba(255,255,255,0.4);font-weight:bold;padding:12px 20px!important}
+        .seller-btn:hover{background:white!important;color:#063d28!important;transform:translateY(-3px)}
+        .cart{position:relative;cursor:pointer}
+        .cart span{position:absolute;top:-8px;left:-8px;background:red;color:white;border-radius:50%;width:22px;height:22px;font-size:12px;display:flex;align-items:center;justify-content:center;}
+
+        .navbar{background:white;position:fixed;top:78px;width:100%;z-index:1099;box-shadow:0 4px 15px rgba(0,0,0,0.08);padding:14px 30px;display:flex;gap:40px;justify-content:center;font-weight:600;}
+        .navbar a{color:var(--dark);text-decoration:none;transition:0.3s}
+        .navbar a:hover{color:var(--main);font-weight:800}
+
+        /* بانر العروض الناري */
+        .offer-hero{
+            height:75vh;
+            background:linear-gradient(rgba(231,76,60,0.94),rgba(231,76,60,0.99)), url('https://images.unsplash.com/photo-1607083206869-4c7675e9142f?w=1600&q=80') center/cover;
+            margin-top:78px;
+            display:flex;align-items:center;justify-content:center;text-align:center;color:white;position:relative;overflow:hidden;
+        }
+        .offer-hero::after{content:"SALE";position:absolute;font-size:400px;font-weight:900;opacity:0.07;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-15deg);}
+        .offer-hero h1{font-size:86px;font-weight:900;margin-bottom:20px;text-shadow:0 10px 50px rgba(0,0,0,0.9)}
+        .offer-hero p{font-size:34px;max-width:1100px;margin:auto;line-height:1.9}
+
+        /* عدّاد تنازلي للعرض */
+        .countdown{
+            background:rgba(0,0,0,0.7);padding:20px 40px;border-radius:50px;margin-top:30px;display:inline-flex;gap:20px;font-size:28px;font-weight:900;
+        }
+        .countdown span{background:var(--offer);padding:12px 24px;border-radius:20px;min-width:90px}
+
+        /* شبكة العروض */
+        .offer-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:50px;max-width:1500px;margin:100px auto;padding:0 20px;}
+        .offer-card{background:linear-gradient(135deg,#fff,#ffebee);border-radius:42px;overflow:hidden;box-shadow:0 25px 80px rgba(231,76,60,0.28);position:relative;transition:all 0.6s;cursor:pointer}
+        .offer-card:hover{transform:translateY(-40px) scale(1.04);box-shadow:0 80px 160px rgba(231,76,60,0.5)}
+        .offer-ribbon{position:absolute;top:0;left:0;background:var(--offer);color:white;padding:16px 40px;font-weight:900;font-size:22px;border-radius:0 0 42px 0;z-index:10;clip-path:polygon(0 0,100% 0,85% 100%,0 100%)}
+        .offer-discount{position:absolute;top:15px;right:15px;background:#c0392b;color:white;padding:14px 28px;border-radius:50%;font-size:28px;font-weight:900;box-shadow:0 8px 25px rgba(0,0,0,0.4)}
+        .offer-card img{width:100%;height:360px;object-fit:contain;background:#fff5f5;padding:30px}
+        .offer-info{padding:35px;text-align:center}
+        .offer-brand{color:var(--offer);font-weight:bold;font-size:22px;margin-bottom:8px}
+        .offer-name{font-size:27px;font-weight:900;line-height:1.4;margin:16px 0}
+        .old-price{text-decoration:line-through;color:#999;font-size:24px;margin:10px 0}
+        .offer-price{font-size:42px;font-weight:900;color:var(--offer);margin:20px 0}
+        .save-badge{background:#27ae60;color:white;padding:12px 28px;border-radius:30px;font-weight:bold;display:inline-block}
+        .add-offer-btn{background:var(--offer);color:white;border:none;padding:24px;width:100%;font-size:26px;font-weight:bold;cursor:pointer;border-radius:0 0 42px 42px;transition:0.4s;position:relative;overflow:hidden}
+        .add-offer-btn::before{content:"";position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,0.3);border-radius:50%;transform:translate(-50%,-50%);transition:0.6s}
+        .add-offer-btn:hover::before{width:300px;height:300px}
+        .add-offer-btn:hover{background:#c0392b;transform:scale(1.05)}
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر والنافبار -->
+    <div class="topbar">
+        <div class="logo"><a href="index.html"><img src="logo.png" alt="تريندات"></a></div>
+        <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="ابحث في العروض..."></div>
+        <div class="top-right">
+            <a href="login.html?seller=1" class="seller-btn">كن بائعًا</a>
+            <a href="login.html">تسجيل الدخول</a>
+            <a href="cart.html" class="cart"><i class="fas fa-shopping-cart fa-lg"></i><span id="cartCount">7</span></a>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <a href="index.html">الرئيسية</a>
+    <a href="gifts.html">الهدايا</a>
+    <a href="featured.html">منتجات مميزة</a>
+        <a href="offers.html">العروض</a>
+        <a href="bestsellers.html">الأكثر مبيعًا</a>
+        <a href="explore.html"> استكشاف </a>
+        <a href="support.html">خدمة العملاء</a>
+    </div>
+
+    <!-- بانر العروض + عدّاد تنازلي -->
+    <div class="offer-hero">
+        <div>
+            <h1>العروض والتنزيلات النارية</h1>
+            <p>خصومات تصل إلى 70% • شحن مجاني • كميات محدودة • تنتهي بعد:</p>
+            <div class="countdown" id="countdown">
+                <span id="days">03</span> :
+                <span id="hours">12</span> :
+                <span id="minutes">45</span> :
+                <span id="seconds">28</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- شبكة العروض -->
+    <div class="offer-grid">
+        <!-- مثال 1 -->
+        <div class="offer-card">
+            <div class="offer-ribbon">تخفيض 65%</div>
+            <div class="offer-discount">-65%</div>
+            <img src="https://via.placeholder.com/800x800/e74c3c/ffffff?text=iPhone+15+Pro" alt="آيفون 15 برو">
+            <div class="offer-info">
+                <div class="offer-brand">Apple</div>
+                <div class="offer-name">آيفون 15 برو ماكس 512 جيجا</div>
+                <div class="old-price">42,500,000 ل.س</div>
+                <div class="offer-price">14,800,000 ل.س</div>
+                <div class="save-badge">وفر 27.7 مليون!</div>
+                <button class="add-offer-btn">اشترِ الآن قبل نفاذ الكمية</button>
+            </div>
+        </div>
+
+        <!-- مثال 2 -->
+        <div class="offer-card">
+            <div class="offer-ribbon">تخفيض 55%</div>
+            <div class="offer-discount">-55%</div>
+            <img src="https://via.placeholder.com/800x800/c0392b/ffffff?text=PS5+Slim" alt="PS5">
+            <div class="offer-info">
+                <div class="offer-brand">Sony</div>
+                <div class="offer-name">بلايستيشن 5 سليم + لعبتين</div>
+                <div class="old-price">24,500,000 ل.س</div>
+                <div class="offer-price">10,900,000 ل.س</div>
+                <div class="save-badge">وفر 13.6 مليون!</div>
+                <button class="add-offer-btn">أضف للسلة فورًا</button>
+            </div>
+        </div>
+
+        <!-- أضف قد ما تبي بنفس الصيغة -->
+    </div>
+
+    <script>
+        // عدّاد تنازلي بسيط وجميل
+        function startCountdown() {
+            const end = new Date().getTime() + (3*24*60*60*1000) + (12*60*60*1000) + (45*60*1000) + 28000;
+            const timer = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = end - now;
+                if (distance < 0) { clearInterval(timer); document.getElementById("countdown").innerHTML = "انتهى العرض!"; return; }
+                const days = Math.floor(distance / (1000*60*60*24));
+                const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+                const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+                const seconds = Math.floor((distance % (1000*60)) / 1000);
+                document.getElementById("days").textContent = days.toString().padStart(2,"0");
+                document.getElementById("hours").textContent = hours.toString().padStart(2,"0");
+                document.getElementById("minutes").textContent = minutes.toString().padStart(2,"0");
+                document.getElementById("seconds").textContent = seconds.toString().padStart(2,"0");
+            }, 1000);
+        }
+        startCountdown();
+        document.getElementById('cartCount').textContent = 0;
+    </script>
+</body>
+</html>

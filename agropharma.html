@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صيدلية زراعية | مبيدات – أسمدة – بذور | تريندات سوريا 2025</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="favicon.png" sizes="512x512" type="image/png">
+    <style>
+        :root{--main:#2cbfb5;--dark:#063d28;--light:#f8fdfc;--agro:#27ae60}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light);color:var(--dark);overflow-x:hidden}
+
+        .topbar{background:var(--main);position:fixed;top:0;width:100%;z-index:1100;box-shadow:0 4px 20px rgba(6,61,40,0.3);display:flex;align-items:center;justify-content:space-between;padding:10px 30px;height:78px;}
+        .logo img{height:70px;transition:0.3s;cursor:pointer}
+        .logo img:hover{transform:scale(1.08)}
+        .search-box{position:relative;width:100%;max-width:500px}
+        .search-box input{width:100%;padding:14px 55px 14px 20px;border:none;border-radius:50px;font-size:17px;box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+        .search-box i{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--main);font-size:22px}
+        .top-right{display:flex;gap:18px;align-items:center;color:white;font-weight:600;}
+        .top-right a{color:white;text-decoration:none;padding:10px 18px;border-radius:50px;transition:0.3s}
+        .top-right a:hover{background:rgba(255,255,255,0.25)}
+        .seller-btn{background:rgba(255,255,255,0.25)!important;border:2px solid rgba(255,255,255,0.4);font-weight:bold;padding:12px 20px!important}
+        .seller-btn:hover{background:white!important;color:#063d28!important;transform:translateY(-3px)}
+        .cart{position:relative;cursor:pointer}
+        .cart span{position:absolute;top:-8px;left:-8px;background:red;color:white;border-radius:50%;width:22px;height:22px;font-size:12px;display:flex;align-items:center;justify-content:center;}
+
+        .navbar{background:white;position:fixed;top:78px;width:100%;z-index:1099;box-shadow:0 4px 15px rgba(0,0,0,0.08);padding:14px 30px;display:flex;gap:40px;justify-content:center;font-weight:600;}
+        .navbar a{color:var(--dark);text-decoration:none;transition:0.3s}
+        .navbar a:hover{color:var(--main);font-weight:800}
+
+        /* بانر الصيدلية الزراعية */
+        .agro-hero{
+            height:75vh;
+            background:linear-gradient(rgba(39,174,96,0.90),rgba(39,174,96,0.97)), url('https://images.unsplash.com/photo-1500595046743-ee18cd30479a?w=1600&q=80') center/cover;
+            margin-top:78px;
+            display:flex;align-items:center;justify-content:center;text-align:center;color:white;
+        }
+        .agro-hero h1{font-size:72px;font-weight:900;margin-bottom:22px;text-shadow:0 6px 35px rgba(0,0,0,0.9)}
+        .agro-hero p{font-size:29px;max-width:1000px;margin:auto;line-height:1.9}
+
+        /* فلترة متخصصة */
+        .filters-bar{background:white;padding:34px;box-shadow:0 12px 50px rgba(39,174,96,0.16);position:sticky;top:78px;z-index:1000;}
+        .filters-container{max-width:1450px;margin:auto;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:center;}
+        .filter-group select{padding:16px 32px;border:3px solid #e8f5e8;border-radius:50px;font-size:17px;min-width:280px;background:#f7fdf7;transition:0.3s}
+        .filter-group select:focus{border-color:var(--agro);box-shadow:0 0 0 6px rgba(39,174,96,0.25)}
+        .clear-filters{background:var(--agro);color:white;padding:16px 50px;border:none;border-radius:50px;font-weight:bold;cursor:pointer;transition:0.4s}
+        .clear-filters:hover{background:#219653;transform:scale(1.05)}
+
+        /* شبكة المنتجات الزراعية */
+        .agro-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:45px;max-width:1450px;margin:90px auto;padding:0 20px;}
+        .agro-card{background:white;border-radius:36px;overflow:hidden;box-shadow:0 20px 65px rgba(39,174,96,0.2);transition:all 0.5s;position:relative;cursor:pointer}
+        .agro-card:hover{transform:translateY(-30px);box-shadow:0 55px 130px rgba(39,174,96,0.45)}
+        .agro-badge{position:absolute;top:20px;left:20px;background:var(--agro);color:white;padding:10px 26px;border-radius:50px;font-weight:900;z-index:10}
+        .agro-card img{width:100%;height:320px;object-fit:contain;background:#f7fdf7;padding:25px}
+        .agro-info{padding:32px;text-align:center;background:linear-gradient(#fff,#f7fdf7)}
+        .agro-brand{color:var(--agro);font-weight:bold;font-size:20px;margin-bottom:8px}
+        .agro-name{font-size:25px;font-weight:900;line-height:1.4;margin:14px 0;color:var(--dark)}
+        .agro-spec{font-size:16px;color:#27ae60;margin:10px 0;font-weight:bold}
+        .agro-price{font-size:34px;font-weight:900;color:var(--dark);margin:18px 0}
+        .add-agro-btn{background:var(--agro);color:white;border:none;padding:22px;width:100%;font-size:24px;font-weight:bold;cursor:pointer;border-radius:0 0 36px 36px;transition:0.3s}
+        .add-agro-btn:hover{background:#219653;transform:scale(1.04)}
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر -->
+    <div class="topbar">
+        <div class="logo"><a href="index.html"><img src="logo.png" alt="تريندات"></a></div>
+        <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="مبيدات، أسمدة، بذور، أدوات زراعية..."></div>
+        <div class="top-right">
+            <a href="login.html?seller=1" class="seller-btn">كن بائعًا</a>
+            <a href="login.html">تسجيل الدخول</a>
+            <a href="cart.html" class="cart"><i class="fas fa-shopping-cart fa-lg"></i><span id="cartCount">7</span></a>
+        </div>
+    </div>
+
+    <!-- النافبار -->
+    <div class="navbar">
+       <a href="index.html">الرئيسية</a>
+    <a href="gifts.html">الهدايا</a>
+    <a href="featured.html">منتجات مميزة</a>
+        <a href="offers.html">العروض</a>
+        <a href="bestsellers.html">الأكثر مبيعًا</a>
+        <a href="explore.html"> استكشاف </a>
+        <a href="support.html">خدمة العملاء</a>
+    </div>
+
+    <!-- بانر الصيدلية زراعية -->
+    <div class="agro-hero">
+        <div>
+            <h1>صيدليتك الزراعية الأولى في سوريا</h1>
+            <p>مبيدات حشرية وفطرية • أسمدة عضوية وكيميائية • بذور محسنة • أدوات ري وتسميد • منتجات وقاية نباتية • توصيل لكل المحافظات</p>
+        </div>
+    </div>
+
+    <!-- فلترة متخصصة -->
+    <div class="filters-bar">
+        <div class="filters-container">
+            <div class="filter-group"><select><option>نوع المنتج</option><option>مبيدات حشرية</option><option>مبيدات فطرية</option><option>أسمدة سائلة</option><option>أسمدة صلبة</option><option>بذور خضار وفواكه</option><option>منظمات نمو</option><option>أدوات ري وتسميد</option></select></div>
+            <div class="filter-group"><select><option>المحصول</option><option>خضروات</option><option>فواكه</option><option>حمضيات</option><option>زيتون</option><option>قمح وشعير</option><option>كل المحاصيل</option></select></div>
+            <div class="filter-group"><select><option>الماركة</option><option>باير</option><option>سينجنتا</option><option>باسف</option><option>يارا</option><option>Adama</option><option>دوبونت</option></select></div>
+            <button class="clear-filters">مسح الفلاتر</button>
+        </div>
+    </div>
+
+    <!-- شبكة المنتجات الزراعية -->
+    <div class="agro-grid">
+        <div class="agro-card">
+            <div class="agro-badge">تريند</div>
+            <img src="https://via.placeholder.com/800x600/27ae60/ffffff?text=كونفيدور+200مل" alt="كونفيدور">
+            <div class="agro-info">
+                <div class="agro-brand">Bayer</div>
+                <div class="agro-name">كونفيدور 200 SL مبيد حشري</div>
+                <div class="agro-spec">عبوة 200 مل – فعال ضد المن والحشرات</div>
+                <div class="agro-price">1,250,000 ل.س</div>
+                <button class="add-agro-btn">أضف للسلة</button>
+            </div>
+        </div>
+
+        <div class="agro-card">
+            <div class="agro-badge">عرض خاص</div>
+            <img src="https://via.placeholder.com/800x600/219653/ffffff?text=يارا+ميلا+20كغ" alt="يارا ميلا">
+            <div class="agro-info">
+                <div class="agro-brand">Yara</div>
+                <div class="agro-name">سماد يارا ميلا كومبلكس NPK</div>
+                <div class="agro-spec">كيس 20 كغ – متوازن لكل المحاصيل</div>
+                <div class="agro-price">2,850,000 ل.س</div>
+                <button class="add-agro-btn">أضف للسلة</button>
+            </div>
+        </div>
+
+        <div class="agro-card">
+            <img src="https://via.placeholder.com/800x600/27ae60/ffffff?text=بذور+طماطم+هجين" alt="بذور طماطم">
+            <div class="agro-info">
+                <div class="agro-brand">Seminis</div>
+                <div class="agro-name">بذور طماطم هجين فالنسيا</div>
+                <div class="agro-spec">كيس 10,000 بذرة – إنتاجية عالية</div>
+                <div class="agro-price">4,200,000 ل.س</div>
+                <button class="add-agro-btn">أضف للسلة</button>
+            </div>
+        </div>
+
+        <!-- أضف قد ما تبي من المنتجات -->
+    </div>
+
+    <script>
+        document.getElementById('cartCount').textContent = 0;
+    </script>
+</body>
+</html>
